@@ -1,0 +1,31 @@
+{
+  "name": "fullstack-boilerplate",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "pnpm@9.15.9",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "concurrently -n API,WEB -c red,blue \"pnpm --filter @boilerplate/api dev\" \"pnpm --filter @boilerplate/web dev\"",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
+    "test:unit": "pnpm --filter @boilerplate/api test:unit && pnpm --filter @boilerplate/web test",
+    "test:integration": "pnpm --filter @boilerplate/api test:integration",
+    "e2e": "pnpm --filter @boilerplate/web e2e",
+    "db:up": "docker compose up -d postgres",
+    "db:down": "docker compose down",
+    "db:reset": "docker compose down -v && docker compose up -d postgres",
+    "db:migrate": "pnpm --filter @boilerplate/api db:migrate",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "push": "node scripts/push-with-version.mjs",
+    "version:bump": "node scripts/bump-version.mjs"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "prettier": "^3.6.2"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "name": "@boilerplate/web",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "typecheck": "tsc -b --pretty false",
+    "test": "vitest run",
+    "e2e": "playwright test"
+  },
+  "dependencies": {
+    "@boilerplate/contracts": "workspace:*",
+    "axios": "^1.10.0",
+    "lucide-react": "^0.525.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^7.9.4"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.30.0",
+    "@playwright/test": "^1.53.2",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/node": "^24.0.10",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.6.0",
+    "eslint": "^9.30.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.3.0",
+    "jsdom": "^26.1.0",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.35.1",
+    "vite": "^7.0.0",
+    "vitest": "^3.2.4"
+  }
+}
