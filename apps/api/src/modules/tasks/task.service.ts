@@ -15,7 +15,10 @@ export class TaskService {
   }
 
   list(user: AuthenticatedUser, input: ListTasksInput): Promise<Task[]> {
-    return this.repository.list(user.role === "admin" ? null : user.id, input);
+    return this.repository.list(
+      user.permissions.includes("task:access-any") ? null : user.id,
+      input,
+    );
   }
 
   async get(user: AuthenticatedUser, id: string): Promise<Task> {
@@ -45,7 +48,10 @@ export class TaskService {
 
   private requireAccess(user: AuthenticatedUser, task: Task | null): Task {
     // Return the same response for missing and inaccessible records to avoid leaking their existence.
-    if (!task || (user.role !== "admin" && task.userId !== user.id)) {
+    if (
+      !task ||
+      (!user.permissions.includes("task:access-any") && task.userId !== user.id)
+    ) {
       throw new AppError(404, "TASK_NOT_FOUND", "Task not found");
     }
     return task;

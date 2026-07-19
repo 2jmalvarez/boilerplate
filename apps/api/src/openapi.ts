@@ -245,12 +245,27 @@ export const openApiDocument = {
       },
       User: {
         type: "object",
-        required: ["id", "name", "email", "role", "createdAt", "updatedAt"],
+        required: [
+          "id",
+          "name",
+          "email",
+          "roles",
+          "permissions",
+          "createdAt",
+          "updatedAt",
+        ],
         properties: {
           id: { type: "string", format: "uuid" },
           name: { type: "string" },
           email: { type: "string", format: "email" },
-          role: { type: "string", enum: ["user", "admin"] },
+          roles: { type: "array", items: { type: "string" } },
+          permissions: {
+            type: "array",
+            items: {
+              type: "string",
+              pattern: "^[a-z][a-z0-9-]*:[a-z][a-z0-9-]*$",
+            },
+          },
           createdAt: { type: "string", format: "date-time" },
           updatedAt: { type: "string", format: "date-time" },
         },

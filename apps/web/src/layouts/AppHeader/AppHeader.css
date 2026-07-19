@@ -64,6 +64,17 @@
   background: rgba(255, 255, 255, 0.08);
   box-shadow: none;
 }
+.account-block .header-actions {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  display: flex;
+  align-self: stretch;
+}
+.account-block .header-actions .button {
+  display: inline-flex;
+  height: 100%;
+  align-self: stretch;
+}
 @media (max-width: 640px) {
   .site-header {
     min-height: 62px;
@@ -81,6 +92,9 @@
     padding: 0;
   }
   .account-block .button {
+    height: 100%;
+  }
+  .account-block .header-actions {
     height: 100%;
   }
 }

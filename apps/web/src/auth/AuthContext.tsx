@@ -23,6 +23,7 @@ import type {
 
 interface AuthContextValue {
   user: User | null;
+  accessToken: string | null;
   isAuthenticated: boolean;
   login: (input: LoginInput) => Promise<void>;
   register: (input: RegisterInput) => Promise<void>;
@@ -51,6 +52,7 @@ export function AuthProvider({ children }: Readonly<PropsWithChildren>) {
   const value = useMemo<AuthContextValue>(
     () => ({
       user: session?.user ?? null,
+      accessToken: session?.accessToken ?? null,
       isAuthenticated: Boolean(session?.accessToken),
       login: (input) => authenticate("/auth/login", input),
       register: (input) => authenticate("/auth/register", input),

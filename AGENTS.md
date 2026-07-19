@@ -24,6 +24,15 @@
 - Never commit `.env` files or credentials; update the relevant `.env.example` instead.
 - Run the checks relevant to the changed workspaces before finishing.
 
+## Authorization
+
+- RBAC uses atomic permission keys in the `<entity>:<action>` format.
+- Roles group permissions; users may hold multiple roles through `user_roles`.
+- Protect API routes with `authenticate` followed by `checkPermission([...])`; do not authorize by role name.
+- Keep resource ownership checks in the service layer. Use the corresponding `*:access-any` permission for global resource access.
+- The JWT carries the effective roles and permissions. The frontend helper `checkPermission(token, permission)` is only for UI visibility; the API is the authorization authority.
+- Keep the permission catalog fixed in migrations. Any new protected action requires a catalog entry, role assignments, route protection, contracts, documentation, and tests.
+
 ## Versioned Push
 
 - Use `pnpm push` instead of `git push` for normal project pushes.

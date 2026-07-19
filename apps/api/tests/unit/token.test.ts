@@ -9,7 +9,8 @@ describe("access tokens", () => {
     const user = {
       id: "76df6a08-2a1e-4ca4-87e4-eb036ea63bc3",
       email: "user@example.com",
-      role: "user" as const,
+      roles: ["user"],
+      permissions: ["task:read"],
     };
 
     expect(verifyAccessToken(signAccessToken(user))).toEqual(user);
@@ -18,7 +19,11 @@ describe("access tokens", () => {
   it("rejects a token signed with another secret", async () => {
     const { default: jwt } = await import("jsonwebtoken");
     const token = jwt.sign(
-      { email: "user@example.com", role: "user" },
+      {
+        email: "user@example.com",
+        roles: ["user"],
+        permissions: ["task:read"],
+      },
       "another-secret-that-is-at-least-32-characters",
       {
         algorithm: "HS256",

@@ -17,6 +17,10 @@ import { TaskController } from "./modules/tasks/task.controller.js";
 import { TaskRepository } from "./modules/tasks/task.repository.js";
 import { createTaskRouter } from "./modules/tasks/task.routes.js";
 import { TaskService } from "./modules/tasks/task.service.js";
+import { RbacController } from "./modules/rbac/rbac.controller.js";
+import { RbacRepository } from "./modules/rbac/rbac.repository.js";
+import { createRbacRouter } from "./modules/rbac/rbac.routes.js";
+import { RbacService } from "./modules/rbac/rbac.service.js";
 import { openApiDocument } from "./openapi.js";
 import { AppError } from "./shared/app-error.js";
 import { sendError } from "./shared/http-response.js";
@@ -66,11 +70,15 @@ export function createApp(db: Pool = pool): Express {
   const authController = new AuthController(new AuthService(authRepository));
   const taskRepository = new TaskRepository(db);
   const taskController = new TaskController(new TaskService(taskRepository));
+  const rbacController = new RbacController(
+    new RbacService(new RbacRepository(db)),
+  );
 
   app.use(createHealthRouter(db));
   app.use("/docs", swaggerUi.serve, swaggerUi.setup(openApiDocument));
   app.use("/api/auth", createAuthRouter(authController));
   app.use("/api/tasks", createTaskRouter(taskController));
+  app.use("/api/rbac", createRbacRouter(rbacController));
   app.use(notFound);
   app.use(errorHandler);
   return app;

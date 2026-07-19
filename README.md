@@ -1,6 +1,6 @@
 # Full-stack TypeScript Boilerplate
 
-Base genérica y autónoma para aplicaciones con React, Express y PostgreSQL. Incluye autenticación JWT Bearer, roles, un CRUD de tareas, migraciones SQL, pruebas y CI.
+Base genérica y autónoma para aplicaciones con React, Express y PostgreSQL. Incluye autenticación JWT Bearer, RBAC por permisos atómicos, un CRUD de tareas, migraciones SQL, pruebas y CI.
 
 ## Stack
 
@@ -23,7 +23,47 @@ database/
   seeds/               Datos opcionales
 ```
 
-La API organiza cada módulo como `route -> controller -> service -> repository`. El módulo `tasks` es un ejemplo reemplazable: los usuarios acceden a sus propias tareas y los administradores pueden ver todas.
+La API organiza cada módulo como `route -> controller -> service -> repository`. El módulo `tasks` es un ejemplo reemplazable: los usuarios acceden a sus propias tareas y un permiso de alcance global permite ver todas.
+
+## Autorización RBAC
+
+Los permisos son atómicos y usan el formato `<entidad>:<accion>`, por ejemplo `task:update`. Los roles son conjuntos de permisos y un usuario puede tener varios roles.
+
+La migración RBAC crea estas tablas:
+
+- `roles`: definición de roles y rol predeterminado para registros nuevos.
+- `permissions`: catálogo fijo de claves válidas.
+- `role_permissions`: permisos incluidos en cada rol.
+- `user_roles`: asignaciones de múltiples roles a usuarios.
+
+`authenticate` valida la firma, expiración, issuer y audience del JWT. Después, `checkPermission(["task:read"])` permite la operación si el token contiene al menos uno de los permisos solicitados. El token incluye los roles y permisos efectivos, por lo que los cambios de roles se aplican en el próximo inicio de sesión.
+
+El frontend expone `checkPermission(token, permission): boolean` exclusivamente para mostrar u ocultar acciones. No verifica la firma del JWT y no sustituye la autorización de la API.
+
+### Permisos iniciales
+
+| Entidad  | Permisos                                                                    |
+| -------- | --------------------------------------------------------------------------- |
+| Tareas   | `task:create`, `task:read`, `task:update`, `task:delete`, `task:access-any` |
+| Roles    | `role:create`, `role:read`, `role:update`, `role:delete`                    |
+| Usuarios | `user:read`, `user:update-roles`                                            |
+| Catálogo | `permission:read`                                                           |
+
+El rol `user` tiene CRUD sobre sus propias tareas. `admin` recibe todos los permisos. `task:access-any` habilita el alcance global y evita que la lógica de negocio dependa del nombre de un rol.
+
+### Administración de acceso
+
+La pantalla `/access` permite administrar roles y asignaciones de usuarios para identidades con `role:read`. La API está disponible bajo `/api/rbac`:
+
+| Método   | Ruta               | Permiso             |
+| -------- | ------------------ | ------------------- |
+| `GET`    | `/permissions`     | `permission:read`   |
+| `GET`    | `/roles`           | `role:read`         |
+| `POST`   | `/roles`           | `role:create`       |
+| `PATCH`  | `/roles/:id`       | `role:update`       |
+| `DELETE` | `/roles/:id`       | `role:delete`       |
+| `GET`    | `/users`           | `user:read`         |
+| `PUT`    | `/users/:id/roles` | `user:update-roles` |
 
 ## Inicio rápido
 
@@ -50,7 +90,7 @@ Copy-Item apps/api/.env.example apps/api/.env
 - Liveness: <http://localhost:3180/health>
 - Readiness: <http://localhost:3180/ready>
 
-Registrá el primer usuario desde la interfaz. No se incluyen contraseñas ni usuarios predeterminados.
+Registrá usuarios desde la interfaz; reciben el rol marcado como predeterminado, inicialmente `user`. Para desarrollo, `pnpm db:seed` también configura las credenciales detalladas más abajo.
 
 ## Variables
 
@@ -85,7 +125,7 @@ pnpm version:bump minor  # incremento manual: major, minor o patch
 
 Las migraciones se aplican por nombre y se registran en `schema_migrations`. Para agregar una, creá el siguiente archivo numerado en `database/migrations` y ejecutá `pnpm db:migrate`.
 
-`pnpm db:seed` crea o restablece los usuarios de desarrollo `admin@example.com` (`admin`) y `user@example.com` (`user`). Ambos usan la contraseña `Test12345!`; no uses estas credenciales en producción.
+`pnpm db:seed` crea o restablece los usuarios de desarrollo `admin@example.com` (`admin`) y `user@example.com` (`user`). Ambos usan la contraseña `Test12345!`; no uses estas credenciales en producción. El seed asigna los roles mediante `user_roles`.
 
 ## Versionado
 
@@ -111,6 +151,7 @@ En Bash usá `export` en lugar de `$env:`. Playwright levanta el servidor Vite a
 
 - Contraseñas hasheadas con bcrypt y nunca devueltas por la API.
 - JWT HS256 con issuer, audience y expiración.
+- Roles y permisos efectivos dentro del JWT; las modificaciones requieren volver a autenticarse.
 - Helmet, CORS explícito, límite global y límite reforzado en auth.
 - Consultas SQL parametrizadas y validación Zod.
 - Respuesta 404 uniforme para recursos inexistentes o ajenos.

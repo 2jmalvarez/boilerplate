@@ -6,13 +6,24 @@ export interface ApiErrorBody {
   error: { code: string; message: string; details?: unknown };
 }
 
-export type Role = "user" | "admin";
+export type Permission = string;
+
+export interface Role {
+  id: string;
+  name: string;
+  description: string | null;
+  isDefault: boolean;
+  permissions: Permission[];
+  createdAt: string;
+  updatedAt: string;
+}
 
 export interface User {
   id: string;
   name: string;
   email: string;
-  role: Role;
+  roles: string[];
+  permissions: Permission[];
   createdAt: string;
   updatedAt: string;
 }
@@ -49,4 +60,15 @@ export interface TaskInput {
   description: string | null;
   status: TaskStatus;
   dueDate: string | null;
+}
+
+export interface RoleInput {
+  name: string;
+  description: string | null;
+  permissionKeys: Permission[];
+  isDefault: boolean;
+}
+
+export interface UserRoleInput {
+  roleIds: string[];
 }
