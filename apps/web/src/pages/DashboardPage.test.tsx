@@ -44,7 +44,9 @@ describe("DashboardPage", () => {
 
     render(<DashboardPage />);
 
-    await user.click(await screen.findByRole("button", { name: "Nueva tarea" }));
+    await user.click(
+      await screen.findByRole("button", { name: "Nueva tarea" }),
+    );
 
     expect(screen.getByRole("dialog", { name: "Crear tarea" })).not.toBeNull();
     expect(document.activeElement).toBe(screen.getByLabelText("Título"));
@@ -61,16 +63,23 @@ describe("DashboardPage", () => {
     render(<DashboardPage />);
 
     await user.click(
-      await screen.findByRole("button", { name: "Editar Preparar informe mensual" }),
+      await screen.findByRole("button", {
+        name: "Editar Preparar informe mensual",
+      }),
     );
 
-    expect(screen.getByRole("dialog", { name: "Actualizar tarea" })).not.toBeNull();
+    expect(
+      screen.getByRole("dialog", { name: "Actualizar tarea" }),
+    ).not.toBeNull();
     expect(screen.getByLabelText("Título")).toHaveProperty("value", task.title);
     expect(screen.getByLabelText("Descripción")).toHaveProperty(
       "value",
       task.description,
     );
-    expect(screen.getByLabelText("Estado")).toHaveProperty("value", task.status);
+    expect(screen.getByLabelText("Estado")).toHaveProperty(
+      "value",
+      task.status,
+    );
   });
 
   it("confirma antes de eliminar una tarea", async () => {
@@ -81,10 +90,14 @@ describe("DashboardPage", () => {
     render(<DashboardPage />);
 
     await user.click(
-      await screen.findByRole("button", { name: "Borrar Preparar informe mensual" }),
+      await screen.findByRole("button", {
+        name: "Borrar Preparar informe mensual",
+      }),
     );
 
-    expect(screen.getByRole("dialog", { name: "¿Eliminar esta tarea?" })).not.toBeNull();
+    expect(
+      screen.getByRole("dialog", { name: "¿Eliminar esta tarea?" }),
+    ).not.toBeNull();
     expect(api.delete).not.toHaveBeenCalled();
 
     await user.click(screen.getByRole("button", { name: "Eliminar tarea" }));

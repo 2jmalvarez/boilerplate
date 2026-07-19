@@ -1,10 +1,10 @@
-import { Navigate, Route, Routes } from 'react-router-dom'
-import { ProtectedRoute } from './auth/ProtectedRoute'
-import { AppLayout } from './components/AppLayout'
-import { DashboardPage } from './pages/DashboardPage'
-import { LoginPage } from './pages/LoginPage'
-import { NotFoundPage } from './pages/NotFoundPage'
-import { RegisterPage } from './pages/RegisterPage'
+import { Navigate, Route, Routes } from "react-router-dom";
+import { ProtectedRoute } from "./auth/ProtectedRoute";
+import { AppLayout } from "./components/AppLayout";
+import { DashboardPage } from "./pages/DashboardPage";
+import { LoginPage } from "./pages/LoginPage";
+import { NotFoundPage } from "./pages/NotFoundPage";
+import { RegisterPage } from "./pages/RegisterPage";
 
 export function App() {
   return (
@@ -19,5 +19,5 @@ export function App() {
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
-  )
+  );
 }

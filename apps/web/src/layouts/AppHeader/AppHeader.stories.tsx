@@ -1,2 +1,28 @@
-import { LogOut, SquareCheckBig } from "lucide-react"; import type { Meta, StoryObj } from "@storybook/react-vite"; import { Button } from "../../ui/Button/Button"; import { AppHeader } from "./AppHeader";
-const meta = { title: "Layouts/AppHeader", component: AppHeader, parameters: { layout: "fullscreen" }, args: { brand: <><SquareCheckBig aria-hidden="true" strokeWidth={1.7} /><span>PLIEGO</span></>, subtitle: "Tareas / Archivo activo", userName: "Marina Torres", actions: <Button variant="quiet"><LogOut aria-hidden="true" size={17} />Salir</Button> } } satisfies Meta<typeof AppHeader>; export default meta; type Story = StoryObj<typeof meta>; export const Default: Story = {};
+import { LogOut, SquareCheckBig } from "lucide-react";
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { Button } from "../../ui/Button/Button";
+import { AppHeader } from "./AppHeader";
+const meta = {
+  title: "Layouts/AppHeader",
+  component: AppHeader,
+  parameters: { layout: "fullscreen" },
+  args: {
+    brand: (
+      <>
+        <SquareCheckBig aria-hidden="true" strokeWidth={1.7} />
+        <span>PLIEGO</span>
+      </>
+    ),
+    subtitle: "Tareas / Archivo activo",
+    userName: "Marina Torres",
+    actions: (
+      <Button variant="quiet">
+        <LogOut aria-hidden="true" size={17} />
+        Salir
+      </Button>
+    ),
+  },
+} satisfies Meta<typeof AppHeader>;
+export default meta;
+type Story = StoryObj<typeof meta>;
+export const Default: Story = {};

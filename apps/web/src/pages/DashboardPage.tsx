@@ -12,15 +12,183 @@ import { SegmentedControl } from "../ui/SegmentedControl/SegmentedControl";
 import type { ApiEnvelope, Task, TaskInput, TaskStatus } from "../types/api";
 
 type Filter = "all" | TaskStatus;
-const filters: ReadonlyArray<{ label: string; value: Filter }> = [{ label: "Todas", value: "all" }, ...(["todo", "in_progress", "done"] as TaskStatus[]).map((status) => ({ label: taskStatusLabels[status], value: status }))];
+const filters: ReadonlyArray<{ label: string; value: Filter }> = [
+  { label: "Todas", value: "all" },
+  ...(["todo", "in_progress", "done"] as TaskStatus[]).map((status) => ({
+    label: taskStatusLabels[status],
+    value: status,
+  })),
+];
 
 /** Orchestrates task loading, mutations, filtering, and the task feature UI. */
 export function DashboardPage() {
-  const [tasks, setTasks] = useState<Task[]>([]); const [filter, setFilter] = useState<Filter>("all"); const [loading, setLoading] = useState(true); const [error, setError] = useState(""); const [editing, setEditing] = useState<Task | "new" | null>(null); const [saving, setSaving] = useState(false); const [deleting, setDeleting] = useState(false); const [pendingDeletion, setPendingDeletion] = useState<Task | null>(null); const [mutationError, setMutationError] = useState("");
-  async function loadTasks() { setLoading(true); setError(""); try { const response = await api.get<ApiEnvelope<Task[]>>("/tasks"); startTransition(() => setTasks(response.data.data)); } catch (loadError) { setError(getErrorMessage(loadError)); } finally { setLoading(false); } }
-  useEffect(() => { void loadTasks(); }, []);
-  const visibleTasks = filter === "all" ? tasks : tasks.filter((task) => task.status === filter); const completed = tasks.filter((task) => task.status === "done").length; const inProgress = tasks.filter((task) => task.status === "in_progress").length;
-  async function saveTask(input: TaskInput) { setSaving(true); setMutationError(""); try { if (editing === "new") { const response = await api.post<ApiEnvelope<Task>>("/tasks", input); startTransition(() => setTasks((current) => [response.data.data, ...current])); } else if (editing) { const response = await api.patch<ApiEnvelope<Task>>(`/tasks/${editing.id}`, input); startTransition(() => setTasks((current) => current.map((task) => task.id === editing.id ? response.data.data : task))); } setEditing(null); } catch (saveError) { setMutationError(getErrorMessage(saveError)); } finally { setSaving(false); } }
-  async function deleteTask(task: Task) { setDeleting(true); setMutationError(""); try { await api.delete<ApiEnvelope<null>>(`/tasks/${task.id}`); startTransition(() => setTasks((current) => current.filter((item) => item.id !== task.id))); if (editing !== "new" && editing?.id === task.id) setEditing(null); setPendingDeletion(null); } catch (deleteError) { setMutationError(getErrorMessage(deleteError)); } finally { setDeleting(false); } }
-  return <div className="dashboard"><PageHeader action={<Button variant="primary" onClick={() => { setMutationError(""); setEditing("new"); }}><Plus aria-hidden="true" size={18} />Nueva tarea</Button>} description="Centraliza el seguimiento y la resolución de los pendientes del equipo." eyebrow="Operaciones / Tareas" title="Panel de tareas" /><section className="metrics" aria-label="Resumen de tareas"><MetricCard detail="en el registro" label="Total de tareas" value={tasks.length} /><MetricCard detail="requieren seguimiento" label="En curso" value={inProgress} /><MetricCard detail="resueltas" label="Completadas" value={completed} /></section><section className="task-register" aria-labelledby="register-title"><header className="register-toolbar"><h2 id="register-title">Registro de tareas</h2><SegmentedControl aria-label="Filtrar por estado" onChange={(value) => startTransition(() => setFilter(value))} options={filters} value={filter} /></header>{mutationError && !editing && <p className="form-error" role="alert">{mutationError}</p>}<TaskRegister emptyDescription={filter === "all" ? "Crea la primera tarea para empezar." : "Prueba con otro filtro."} emptyTitle={filter === "all" ? "El pliego está limpio." : "No hay tareas en este estado."} error={error} loading={loading} onDelete={async (task) => { setPendingDeletion(task); }} onEdit={(task) => { setMutationError(""); setEditing(task); }} onRetry={loadTasks} tasks={visibleTasks} /></section>{editing && <TaskEditor error={mutationError} key={editing === "new" ? "new" : editing.id} onCancel={() => setEditing(null)} onSave={saveTask} saving={saving} task={editing === "new" ? null : editing} />}{pendingDeletion && <ConfirmDialog confirmLabel="Eliminar tarea" description={`¿Borrar “${pendingDeletion.title}”? Esta acción no se puede deshacer.`} loading={deleting} onCancel={() => setPendingDeletion(null)} onConfirm={() => void deleteTask(pendingDeletion)} title="¿Eliminar esta tarea?" tone="danger" />}</div>;
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [filter, setFilter] = useState<Filter>("all");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [editing, setEditing] = useState<Task | "new" | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [pendingDeletion, setPendingDeletion] = useState<Task | null>(null);
+  const [mutationError, setMutationError] = useState("");
+  async function loadTasks() {
+    setLoading(true);
+    setError("");
+    try {
+      const response = await api.get<ApiEnvelope<Task[]>>("/tasks");
+      startTransition(() => setTasks(response.data.data));
+    } catch (loadError) {
+      setError(getErrorMessage(loadError));
+    } finally {
+      setLoading(false);
+    }
+  }
+  useEffect(() => {
+    void loadTasks();
+  }, []);
+  const visibleTasks =
+    filter === "all" ? tasks : tasks.filter((task) => task.status === filter);
+  const completed = tasks.filter((task) => task.status === "done").length;
+  const inProgress = tasks.filter(
+    (task) => task.status === "in_progress",
+  ).length;
+  async function saveTask(input: TaskInput) {
+    setSaving(true);
+    setMutationError("");
+    try {
+      if (editing === "new") {
+        const response = await api.post<ApiEnvelope<Task>>("/tasks", input);
+        startTransition(() =>
+          setTasks((current) => [response.data.data, ...current]),
+        );
+      } else if (editing) {
+        const response = await api.patch<ApiEnvelope<Task>>(
+          `/tasks/${editing.id}`,
+          input,
+        );
+        startTransition(() =>
+          setTasks((current) =>
+            current.map((task) =>
+              task.id === editing.id ? response.data.data : task,
+            ),
+          ),
+        );
+      }
+      setEditing(null);
+    } catch (saveError) {
+      setMutationError(getErrorMessage(saveError));
+    } finally {
+      setSaving(false);
+    }
+  }
+  async function deleteTask(task: Task) {
+    setDeleting(true);
+    setMutationError("");
+    try {
+      await api.delete<ApiEnvelope<null>>(`/tasks/${task.id}`);
+      startTransition(() =>
+        setTasks((current) => current.filter((item) => item.id !== task.id)),
+      );
+      if (editing !== "new" && editing?.id === task.id) setEditing(null);
+      setPendingDeletion(null);
+    } catch (deleteError) {
+      setMutationError(getErrorMessage(deleteError));
+    } finally {
+      setDeleting(false);
+    }
+  }
+  return (
+    <div className="dashboard">
+      <PageHeader
+        action={
+          <Button
+            variant="primary"
+            onClick={() => {
+              setMutationError("");
+              setEditing("new");
+            }}
+          >
+            <Plus aria-hidden="true" size={18} />
+            Nueva tarea
+          </Button>
+        }
+        description="Centraliza el seguimiento y la resolución de los pendientes del equipo."
+        eyebrow="Operaciones / Tareas"
+        title="Panel de tareas"
+      />
+      <section className="metrics" aria-label="Resumen de tareas">
+        <MetricCard
+          detail="en el registro"
+          label="Total de tareas"
+          value={tasks.length}
+        />
+        <MetricCard
+          detail="requieren seguimiento"
+          label="En curso"
+          value={inProgress}
+        />
+        <MetricCard detail="resueltas" label="Completadas" value={completed} />
+      </section>
+      <section className="task-register" aria-labelledby="register-title">
+        <header className="register-toolbar">
+          <h2 id="register-title">Registro de tareas</h2>
+          <SegmentedControl
+            aria-label="Filtrar por estado"
+            onChange={(value) => startTransition(() => setFilter(value))}
+            options={filters}
+            value={filter}
+          />
+        </header>
+        {mutationError && !editing && (
+          <p className="form-error" role="alert">
+            {mutationError}
+          </p>
+        )}
+        <TaskRegister
+          emptyDescription={
+            filter === "all"
+              ? "Crea la primera tarea para empezar."
+              : "Prueba con otro filtro."
+          }
+          emptyTitle={
+            filter === "all"
+              ? "El pliego está limpio."
+              : "No hay tareas en este estado."
+          }
+          error={error}
+          loading={loading}
+          onDelete={async (task) => {
+            setPendingDeletion(task);
+          }}
+          onEdit={(task) => {
+            setMutationError("");
+            setEditing(task);
+          }}
+          onRetry={loadTasks}
+          tasks={visibleTasks}
+        />
+      </section>
+      {editing && (
+        <TaskEditor
+          error={mutationError}
+          key={editing === "new" ? "new" : editing.id}
+          onCancel={() => setEditing(null)}
+          onSave={saveTask}
+          saving={saving}
+          task={editing === "new" ? null : editing}
+        />
+      )}
+      {pendingDeletion && (
+        <ConfirmDialog
+          confirmLabel="Eliminar tarea"
+          description={`¿Borrar “${pendingDeletion.title}”? Esta acción no se puede deshacer.`}
+          loading={deleting}
+          onCancel={() => setPendingDeletion(null)}
+          onConfirm={() => void deleteTask(pendingDeletion)}
+          title="¿Eliminar esta tarea?"
+          tone="danger"
+        />
+      )}
+    </div>
+  );
 }

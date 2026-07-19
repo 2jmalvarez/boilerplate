@@ -1,1 +1,27 @@
-.icon-button { display:inline-grid; width:34px; height:34px; place-items:center; border:1px solid transparent; border-radius:5px; background:transparent; color:var(--muted); cursor:pointer; }.icon-button:hover:not(:disabled) { border-color:var(--line-strong); background:var(--surface-muted); color:var(--navy); }.icon-button-danger:hover:not(:disabled) { color:var(--red); }.icon-button-small { width:28px; height:28px; }.icon-button-large { width:42px; height:42px; }
+.icon-button {
+  display: inline-grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+.icon-button:hover:not(:disabled) {
+  border-color: var(--line-strong);
+  background: var(--surface-muted);
+  color: var(--navy);
+}
+.icon-button-danger:hover:not(:disabled) {
+  color: var(--red);
+}
+.icon-button-small {
+  width: 28px;
+  height: 28px;
+}
+.icon-button-large {
+  width: 42px;
+  height: 42px;
+}

@@ -1,1 +1,86 @@
-.site-header { position:sticky; top:0; z-index:10; display:flex; min-height:70px; align-items:stretch; justify-content:space-between; border-bottom:1px solid #0d294a; background:var(--navy); color:#fff; }.brand { display:grid; grid-template-columns:auto auto; align-content:center; align-items:center; gap:0 .55rem; padding:.8rem clamp(1.2rem,3vw,3.5rem); font-size:.88rem; font-weight:800; letter-spacing:.1em; }.brand svg { grid-row:span 2; color:#8ec0f4; }.brand small { color:#b7cbe0; font-size:.58rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase; }.account-block { display:grid; grid-template-columns:auto auto; align-items:center; gap:0 1rem; padding-left:1.25rem; }.account-label { color:#b7cbe0; font-size:.61rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }.account-block strong { font-size:.82rem; font-weight:600; }.account-block .button { grid-column:2; grid-row:1 / span 2; align-self:stretch; border-width:0 0 0 1px; border-radius:0; border-color:rgba(255,255,255,.17); padding-inline:1.3rem; color:#fff; }.account-block .button:hover:not(:disabled) { background:rgba(255,255,255,.08); box-shadow:none; } @media (max-width:640px) { .site-header { min-height:62px; }.brand { padding:.7rem 1rem; }.brand small,.account-label,.account-block strong { display:none; }.account-block { display:block; padding:0; }.account-block .button { height:100%; } }
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  min-height: 70px;
+  align-items: stretch;
+  justify-content: space-between;
+  border-bottom: 1px solid #0d294a;
+  background: var(--navy);
+  color: #fff;
+}
+.brand {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-content: center;
+  align-items: center;
+  gap: 0 0.55rem;
+  padding: 0.8rem clamp(1.2rem, 3vw, 3.5rem);
+  font-size: 0.88rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+.brand svg {
+  grid-row: span 2;
+  color: #8ec0f4;
+}
+.brand small {
+  color: #b7cbe0;
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.account-block {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  gap: 0 1rem;
+  padding-left: 1.25rem;
+}
+.account-label {
+  color: #b7cbe0;
+  font-size: 0.61rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.account-block strong {
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+.account-block .button {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: stretch;
+  border-width: 0 0 0 1px;
+  border-radius: 0;
+  border-color: rgba(255, 255, 255, 0.17);
+  padding-inline: 1.3rem;
+  color: #fff;
+}
+.account-block .button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+}
+@media (max-width: 640px) {
+  .site-header {
+    min-height: 62px;
+  }
+  .brand {
+    padding: 0.7rem 1rem;
+  }
+  .brand small,
+  .account-label,
+  .account-block strong {
+    display: none;
+  }
+  .account-block {
+    display: block;
+    padding: 0;
+  }
+  .account-block .button {
+    height: 100%;
+  }
+}

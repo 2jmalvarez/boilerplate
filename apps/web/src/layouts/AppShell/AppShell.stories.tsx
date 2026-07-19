@@ -1,2 +1,20 @@
-import type { Meta, StoryObj } from "@storybook/react-vite"; import { AppShell } from "./AppShell";
-const meta = { title: "Layouts/AppShell", component: AppShell, parameters: { layout: "fullscreen" }, args: { header: <header style={{ background: "#173b66", color: "white", padding: "1rem" }}>Cabecera</header>, children: <div style={{ padding: "2rem" }}>Contenido</div> } } satisfies Meta<typeof AppShell>; export default meta; type Story = StoryObj<typeof meta>; export const Default: Story = {};
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { AppShell } from "./AppShell";
+const meta = {
+  title: "Layouts/AppShell",
+  component: AppShell,
+  parameters: { layout: "fullscreen" },
+  args: {
+    header: (
+      <header
+        style={{ background: "#173b66", color: "white", padding: "1rem" }}
+      >
+        Cabecera
+      </header>
+    ),
+    children: <div style={{ padding: "2rem" }}>Contenido</div>,
+  },
+} satisfies Meta<typeof AppShell>;
+export default meta;
+type Story = StoryObj<typeof meta>;
+export const Default: Story = {};

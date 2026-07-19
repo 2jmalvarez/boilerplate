@@ -31,7 +31,10 @@ api.defaults.adapter = async (config) => {
   const input = config.data ? (JSON.parse(config.data) as TaskInput) : null;
   const task = input && {
     ...input,
-    id: config.url?.split("/").at(-1) === "tasks" ? "task-new" : config.url?.split("/").at(-1),
+    id:
+      config.url?.split("/").at(-1) === "tasks"
+        ? "task-new"
+        : config.url?.split("/").at(-1),
     userId: "user-1",
     createdAt: "2026-07-18T10:00:00.000Z",
     updatedAt: "2026-07-18T10:00:00.000Z",
@@ -39,7 +42,14 @@ api.defaults.adapter = async (config) => {
 
   return {
     config,
-    data: { data: config.method === "get" ? tasks : config.method === "delete" ? null : task },
+    data: {
+      data:
+        config.method === "get"
+          ? tasks
+          : config.method === "delete"
+            ? null
+            : task,
+    },
     headers: {},
     status: 200,
     statusText: "OK",
@@ -61,7 +71,9 @@ export const Register: Story = {
     await expect(canvas.getByText("Preparar la propuesta")).toBeVisible();
     await userEvent.click(canvas.getByRole("button", { name: "Terminada" }));
     await expect(canvas.getByText("Publicar el informe semanal")).toBeVisible();
-    await expect(canvas.queryByText("Preparar la propuesta")).not.toBeInTheDocument();
+    await expect(
+      canvas.queryByText("Preparar la propuesta"),
+    ).not.toBeInTheDocument();
   },
 };
 
@@ -70,8 +82,13 @@ export const CreateTask: Story = {
     const canvas = within(canvasElement);
     await expect(canvas.getByText("Preparar la propuesta")).toBeVisible();
     await userEvent.click(canvas.getByRole("button", { name: "Nueva tarea" }));
-    await userEvent.type(canvas.getByLabelText("Título"), "Coordinar revisión legal");
-    await userEvent.click(canvas.getByRole("button", { name: "Guardar ficha" }));
+    await userEvent.type(
+      canvas.getByLabelText("Título"),
+      "Coordinar revisión legal",
+    );
+    await userEvent.click(
+      canvas.getByRole("button", { name: "Guardar ficha" }),
+    );
     await expect(canvas.getByText("Coordinar revisión legal")).toBeVisible();
   },
 };

@@ -1,1 +1,90 @@
-.auth-layout { display:grid; min-height:100vh; grid-template-columns:minmax(0,1.2fr) minmax(370px,.8fr); background:var(--canvas); }.auth-intro { position:relative; display:flex; min-height:100vh; flex-direction:column; overflow:hidden; padding:clamp(2rem,5vw,5.5rem); background:var(--navy); color:#f8fbff; }.auth-intro::after { position:absolute; right:-12vw; bottom:-16vw; width:min(47vw,580px); aspect-ratio:1; border:1px solid rgba(255,255,255,.15); border-radius:50%; box-shadow:0 0 0 52px rgba(255,255,255,.035),0 0 0 104px rgba(255,255,255,.025); content:""; }.auth-mark { display:inline-flex; align-items:center; gap:.6rem; width:fit-content; font-size:.92rem; font-weight:800; letter-spacing:.1em; }.auth-mark svg { color:#8ec0f4; }.issue-number { position:absolute; top:3.3rem; right:3.5rem; color:#b9cee5; font-size:.68rem; font-weight:700; letter-spacing:.1em; }.auth-headline { z-index:1; width:min(700px,100%); margin:auto 0; padding:4rem 0; }.auth-form-panel { display:flex; flex-direction:column; justify-content:center; padding:clamp(2rem,5vw,5rem); background:var(--surface); } @media (max-width:900px) { .auth-layout { grid-template-columns:1fr; }.auth-intro { min-height:46vh; }.auth-form-panel { min-height:54vh; } } @media (max-width:640px) { .auth-intro { min-height:44vh; padding:1.5rem; }.issue-number { top:1.6rem; right:1.5rem; }.auth-headline { padding:3rem 0; }.auth-form-panel { padding:2rem 1.25rem; } }
+.auth-layout {
+  display: grid;
+  min-height: 100vh;
+  grid-template-columns: minmax(0, 1.2fr) minmax(370px, 0.8fr);
+  background: var(--canvas);
+}
+.auth-intro {
+  position: relative;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  overflow: hidden;
+  padding: clamp(2rem, 5vw, 5.5rem);
+  background: var(--navy);
+  color: #f8fbff;
+}
+.auth-intro::after {
+  position: absolute;
+  right: -12vw;
+  bottom: -16vw;
+  width: min(47vw, 580px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 52px rgba(255, 255, 255, 0.035),
+    0 0 0 104px rgba(255, 255, 255, 0.025);
+  content: "";
+}
+.auth-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: fit-content;
+  font-size: 0.92rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+.auth-mark svg {
+  color: #8ec0f4;
+}
+.issue-number {
+  position: absolute;
+  top: 3.3rem;
+  right: 3.5rem;
+  color: #b9cee5;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+.auth-headline {
+  z-index: 1;
+  width: min(700px, 100%);
+  margin: auto 0;
+  padding: 4rem 0;
+}
+.auth-form-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(2rem, 5vw, 5rem);
+  background: var(--surface);
+}
+@media (max-width: 900px) {
+  .auth-layout {
+    grid-template-columns: 1fr;
+  }
+  .auth-intro {
+    min-height: 46vh;
+  }
+  .auth-form-panel {
+    min-height: 54vh;
+  }
+}
+@media (max-width: 640px) {
+  .auth-intro {
+    min-height: 44vh;
+    padding: 1.5rem;
+  }
+  .issue-number {
+    top: 1.6rem;
+    right: 1.5rem;
+  }
+  .auth-headline {
+    padding: 3rem 0;
+  }
+  .auth-form-panel {
+    padding: 2rem 1.25rem;
+  }
+}

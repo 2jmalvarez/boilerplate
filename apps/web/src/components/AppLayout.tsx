@@ -16,6 +16,27 @@ export function AppLayout() {
   }
 
   return (
-    <AppShell header={<AppHeader brand={<a href="/dashboard" aria-label="Pliego, ir al tablero"><SquareCheckBig aria-hidden="true" strokeWidth={1.7} /><span>PLIEGO</span></a>} subtitle="Tareas / Archivo activo" userName={user?.name} actions={<Button type="button" variant="quiet" onClick={handleLogout}><LogOut size={17} aria-hidden="true" />Salir</Button>} />}><Outlet /></AppShell>
+    <AppShell
+      header={
+        <AppHeader
+          brand={
+            <a href="/dashboard" aria-label="Pliego, ir al tablero">
+              <SquareCheckBig aria-hidden="true" strokeWidth={1.7} />
+              <span>PLIEGO</span>
+            </a>
+          }
+          subtitle="Tareas / Archivo activo"
+          userName={user?.name}
+          actions={
+            <Button type="button" variant="quiet" onClick={handleLogout}>
+              <LogOut size={17} aria-hidden="true" />
+              Salir
+            </Button>
+          }
+        />
+      }
+    >
+      <Outlet />
+    </AppShell>
   );
 }

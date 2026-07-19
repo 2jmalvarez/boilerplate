@@ -1,6 +1,63 @@
-.button { display:inline-flex; min-height:42px; align-items:center; justify-content:center; gap:.5rem; border:1px solid var(--line-strong); border-radius:7px; padding:.65rem .95rem; background:var(--surface); color:var(--ink); font-size:.78rem; font-weight:700; letter-spacing:.01em; text-decoration:none; cursor:pointer; transition:background-color 150ms ease,border-color 150ms ease,box-shadow 150ms ease; }
-.button:hover:not(:disabled) { border-color:#91a8c2; box-shadow:0 2px 6px rgba(23,32,51,.08); }
-.button:disabled { cursor:wait; opacity:.6; }
-.button-primary { border-color:var(--navy); background:var(--navy); color:#fff; }.button-primary:hover:not(:disabled) { border-color:var(--navy-dark); background:var(--navy-dark); }
-.button-quiet { background:transparent; }.button-quiet:hover:not(:disabled) { background:var(--surface-muted); }.button-danger { border-color:var(--red); background:var(--red); color:#fff; }
-.button-small { min-height:34px; padding:.45rem .7rem; }.button-large { min-height:48px; padding:.8rem 1.2rem; }.button-full-width { width:100%; }.button-spinner { animation:spin 900ms linear infinite; }
+.button {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 7px;
+  padding: 0.65rem 0.95rem;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+.button:hover:not(:disabled) {
+  border-color: #91a8c2;
+  box-shadow: 0 2px 6px rgba(23, 32, 51, 0.08);
+}
+.button:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+.button-primary {
+  border-color: var(--navy);
+  background: var(--navy);
+  color: #fff;
+}
+.button-primary:hover:not(:disabled) {
+  border-color: var(--navy-dark);
+  background: var(--navy-dark);
+}
+.button-quiet {
+  background: transparent;
+}
+.button-quiet:hover:not(:disabled) {
+  background: var(--surface-muted);
+}
+.button-danger {
+  border-color: var(--red);
+  background: var(--red);
+  color: #fff;
+}
+.button-small {
+  min-height: 34px;
+  padding: 0.45rem 0.7rem;
+}
+.button-large {
+  min-height: 48px;
+  padding: 0.8rem 1.2rem;
+}
+.button-full-width {
+  width: 100%;
+}
+.button-spinner {
+  animation: spin 900ms linear infinite;
+}

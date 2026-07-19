@@ -8,4 +8,4 @@ export type {
   TaskInput,
   TaskStatus,
   User,
-} from '@boilerplate/contracts'
+} from "@boilerplate/contracts";

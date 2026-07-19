@@ -6,7 +6,7 @@ export interface ApiErrorBody {
   error: { code: string; message: string; details?: unknown };
 }
 
-export type Role = 'user' | 'admin';
+export type Role = "user" | "admin";
 
 export interface User {
   id: string;
@@ -31,7 +31,7 @@ export interface RegisterInput extends LoginInput {
   name: string;
 }
 
-export type TaskStatus = 'todo' | 'in_progress' | 'done';
+export type TaskStatus = "todo" | "in_progress" | "done";
 
 export interface Task {
   id: string;

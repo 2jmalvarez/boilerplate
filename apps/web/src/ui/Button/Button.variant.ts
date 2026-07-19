@@ -8,7 +8,11 @@ export const buttonVariants = cva("button", {
       quiet: "button-quiet",
       danger: "button-danger",
     },
-    size: { small: "button-small", medium: "button-medium", large: "button-large" },
+    size: {
+      small: "button-small",
+      medium: "button-medium",
+      large: "button-large",
+    },
     fullWidth: { true: "button-full-width", false: "" },
   },
   defaultVariants: { variant: "default", size: "medium", fullWidth: false },

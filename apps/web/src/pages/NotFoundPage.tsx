@@ -1,5 +1,5 @@
-import { ArrowLeft } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { ArrowLeft } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export function NotFoundPage() {
   return (
@@ -10,5 +10,5 @@ export function NotFoundPage() {
         <ArrowLeft aria-hidden="true" size={18} /> Volver al inicio
       </Link>
     </main>
-  )
+  );
 }

@@ -1,2 +1,15 @@
-import type { Meta, StoryObj } from "@storybook/react-vite"; import { MetricCard } from "./MetricCard";
-const meta = { title: "Design System/UI/MetricCard", component: MetricCard, args: { label: "Tareas abiertas", value: 12, detail: "requieren seguimiento" } } satisfies Meta<typeof MetricCard>; export default meta; type Story = StoryObj<typeof meta>; export const Default: Story = {}; export const Zero: Story = { args: { value: 0, detail: "sin pendientes" } };
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { MetricCard } from "./MetricCard";
+const meta = {
+  title: "Design System/UI/MetricCard",
+  component: MetricCard,
+  args: {
+    label: "Tareas abiertas",
+    value: 12,
+    detail: "requieren seguimiento",
+  },
+} satisfies Meta<typeof MetricCard>;
+export default meta;
+type Story = StoryObj<typeof meta>;
+export const Default: Story = {};
+export const Zero: Story = { args: { value: 0, detail: "sin pendientes" } };

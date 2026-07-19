@@ -1,1 +1,28 @@
-.modal-backdrop { position:fixed; z-index:10; inset:0; display:grid; place-items:center; padding:1.25rem; background:rgba(12,27,47,.52); backdrop-filter:blur(3px); animation:fade-in 160ms ease-out; }.modal { width:min(100%,610px); max-height:calc(100vh - 2.5rem); overflow:auto; border-radius:10px; background:var(--surface); box-shadow:0 24px 70px rgba(9,28,51,.3); animation:modal-in 180ms ease-out; } @media (max-width:640px) { .modal-backdrop { padding:.7rem; }.modal { max-height:calc(100vh - 1.4rem); } }
+.modal-backdrop {
+  position: fixed;
+  z-index: 10;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+  background: rgba(12, 27, 47, 0.52);
+  backdrop-filter: blur(3px);
+  animation: fade-in 160ms ease-out;
+}
+.modal {
+  width: min(100%, 610px);
+  max-height: calc(100vh - 2.5rem);
+  overflow: auto;
+  border-radius: 10px;
+  background: var(--surface);
+  box-shadow: 0 24px 70px rgba(9, 28, 51, 0.3);
+  animation: modal-in 180ms ease-out;
+}
+@media (max-width: 640px) {
+  .modal-backdrop {
+    padding: 0.7rem;
+  }
+  .modal {
+    max-height: calc(100vh - 1.4rem);
+  }
+}

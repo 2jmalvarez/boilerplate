@@ -1,1 +1,13 @@
-.app-shell { display:flex; min-height:100vh; flex-direction:column; }.app-shell > main { flex:1; }.app-shell-footer { display:flex; justify-content:center; padding:1rem; }
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+.app-shell > main {
+  flex: 1;
+}
+.app-shell-footer {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}

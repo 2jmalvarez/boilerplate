@@ -1,2 +1,19 @@
-import type { AuthLayoutProps } from "./AuthLayout.types"; import "./AuthLayout.css";
-export function AuthLayout({ brand, children, intro, issueNumber }: Readonly<AuthLayoutProps>) { return <main className="auth-layout"><section className="auth-intro"><div className="auth-mark">{brand}</div>{issueNumber && <div className="issue-number">{issueNumber}</div>}<div className="auth-headline">{intro}</div></section><section className="auth-form-panel">{children}</section></main>; }
+import type { AuthLayoutProps } from "./AuthLayout.types";
+import "./AuthLayout.css";
+export function AuthLayout({
+  brand,
+  children,
+  intro,
+  issueNumber,
+}: Readonly<AuthLayoutProps>) {
+  return (
+    <main className="auth-layout">
+      <section className="auth-intro">
+        <div className="auth-mark">{brand}</div>
+        {issueNumber && <div className="issue-number">{issueNumber}</div>}
+        <div className="auth-headline">{intro}</div>
+      </section>
+      <section className="auth-form-panel">{children}</section>
+    </main>
+  );
+}

@@ -1,7 +1,7 @@
-import type { RequestHandler } from 'express';
-import { sendData } from '../../shared/http-response.js';
-import type { AuthService } from './auth.service.js';
-import type { LoginInput, RegisterInput } from './auth.schemas.js';
+import type { RequestHandler } from "express";
+import { sendData } from "../../shared/http-response.js";
+import type { AuthService } from "./auth.service.js";
+import type { LoginInput, RegisterInput } from "./auth.schemas.js";
 
 export class AuthController {
   constructor(private readonly service: AuthService) {}

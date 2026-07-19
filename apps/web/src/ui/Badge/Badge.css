@@ -1,1 +1,28 @@
-.badge { display:inline-flex; border-radius:999px; padding:.3rem .55rem; font-size:.66rem; font-weight:800; white-space:nowrap; }.badge-neutral { background:var(--surface-muted); color:var(--muted); }.badge-info { background:var(--blue-soft); color:var(--blue); }.badge-warning { background:var(--amber-soft); color:var(--amber); }.badge-success { background:var(--green-soft); color:var(--green); }.badge-danger { background:var(--red-soft); color:var(--red); }
+.badge {
+  display: inline-flex;
+  border-radius: 999px;
+  padding: 0.3rem 0.55rem;
+  font-size: 0.66rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.badge-neutral {
+  background: var(--surface-muted);
+  color: var(--muted);
+}
+.badge-info {
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+.badge-warning {
+  background: var(--amber-soft);
+  color: var(--amber);
+}
+.badge-success {
+  background: var(--green-soft);
+  color: var(--green);
+}
+.badge-danger {
+  background: var(--red-soft);
+  color: var(--red);
+}

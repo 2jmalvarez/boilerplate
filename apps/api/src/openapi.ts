@@ -1,133 +1,214 @@
 const errorResponse = {
-  description: 'Error response',
+  description: "Error response",
   content: {
-    'application/json': {
-      schema: { $ref: '#/components/schemas/Error' },
+    "application/json": {
+      schema: { $ref: "#/components/schemas/Error" },
     },
   },
 };
 
 const taskResponse = {
-  description: 'Task',
+  description: "Task",
   content: {
-    'application/json': {
+    "application/json": {
       schema: {
-        type: 'object',
-        required: ['data'],
-        properties: { data: { $ref: '#/components/schemas/Task' } },
+        type: "object",
+        required: ["data"],
+        properties: { data: { $ref: "#/components/schemas/Task" } },
       },
     },
   },
 };
 
 export const openApiDocument = {
-  openapi: '3.1.0',
+  openapi: "3.1.0",
   info: {
-    title: 'Boilerplate API',
-    version: '1.0.0',
-    description: 'Minimal production-oriented auth and task API.',
+    title: "Boilerplate API",
+    version: "1.0.0",
+    description: "Minimal production-oriented auth and task API.",
   },
-  servers: [{ url: '/' }],
-  tags: [{ name: 'Health' }, { name: 'Auth' }, { name: 'Tasks' }],
+  servers: [{ url: "/" }],
+  tags: [{ name: "Health" }, { name: "Auth" }, { name: "Tasks" }],
   paths: {
-    '/health': {
+    "/health": {
       get: {
-        tags: ['Health'],
-        summary: 'Liveness probe',
-        responses: { '200': { description: 'Process is alive' } },
+        tags: ["Health"],
+        summary: "Liveness probe",
+        responses: { "200": { description: "Process is alive" } },
       },
     },
-    '/ready': {
+    "/ready": {
       get: {
-        tags: ['Health'],
-        summary: 'Database readiness probe',
-        responses: { '200': { description: 'Database is reachable' }, '503': errorResponse },
+        tags: ["Health"],
+        summary: "Database readiness probe",
+        responses: {
+          "200": { description: "Database is reachable" },
+          "503": errorResponse,
+        },
       },
     },
-    '/api/auth/register': {
+    "/api/auth/register": {
       post: {
-        tags: ['Auth'],
-        summary: 'Register a user',
-        requestBody: { required: true, content: { 'application/json': { schema: { $ref: '#/components/schemas/Registration' } } } },
-        responses: { '201': { $ref: '#/components/responses/AuthSuccess' }, '400': errorResponse, '409': errorResponse },
+        tags: ["Auth"],
+        summary: "Register a user",
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/Registration" },
+            },
+          },
+        },
+        responses: {
+          "201": { $ref: "#/components/responses/AuthSuccess" },
+          "400": errorResponse,
+          "409": errorResponse,
+        },
       },
     },
-    '/api/auth/login': {
+    "/api/auth/login": {
       post: {
-        tags: ['Auth'],
-        summary: 'Log in',
-        requestBody: { required: true, content: { 'application/json': { schema: { $ref: '#/components/schemas/Credentials' } } } },
-        responses: { '200': { $ref: '#/components/responses/AuthSuccess' }, '400': errorResponse, '401': errorResponse },
+        tags: ["Auth"],
+        summary: "Log in",
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/Credentials" },
+            },
+          },
+        },
+        responses: {
+          "200": { $ref: "#/components/responses/AuthSuccess" },
+          "400": errorResponse,
+          "401": errorResponse,
+        },
       },
     },
-    '/api/auth/me': {
+    "/api/auth/me": {
       get: {
-        tags: ['Auth'],
-        summary: 'Get current user',
+        tags: ["Auth"],
+        summary: "Get current user",
         security: [{ bearerAuth: [] }],
-        responses: { '200': { description: 'Current user' }, '401': errorResponse },
+        responses: {
+          "200": { description: "Current user" },
+          "401": errorResponse,
+        },
       },
     },
-    '/api/tasks': {
+    "/api/tasks": {
       get: {
-        tags: ['Tasks'],
-        summary: 'List visible tasks',
+        tags: ["Tasks"],
+        summary: "List visible tasks",
         security: [{ bearerAuth: [] }],
         parameters: [
-          { in: 'query', name: 'limit', schema: { type: 'integer', minimum: 1, maximum: 100, default: 50 } },
-          { in: 'query', name: 'offset', schema: { type: 'integer', minimum: 0, default: 0 } },
-          { in: 'query', name: 'status', schema: { $ref: '#/components/schemas/TaskStatus' } },
+          {
+            in: "query",
+            name: "limit",
+            schema: { type: "integer", minimum: 1, maximum: 100, default: 50 },
+          },
+          {
+            in: "query",
+            name: "offset",
+            schema: { type: "integer", minimum: 0, default: 0 },
+          },
+          {
+            in: "query",
+            name: "status",
+            schema: { $ref: "#/components/schemas/TaskStatus" },
+          },
         ],
-        responses: { '200': { description: 'Task list' }, '401': errorResponse },
+        responses: {
+          "200": { description: "Task list" },
+          "401": errorResponse,
+        },
       },
       post: {
-        tags: ['Tasks'],
-        summary: 'Create a task',
+        tags: ["Tasks"],
+        summary: "Create a task",
         security: [{ bearerAuth: [] }],
-        requestBody: { required: true, content: { 'application/json': { schema: { $ref: '#/components/schemas/TaskInput' } } } },
-        responses: { '201': taskResponse, '400': errorResponse, '401': errorResponse },
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/TaskInput" },
+            },
+          },
+        },
+        responses: {
+          "201": taskResponse,
+          "400": errorResponse,
+          "401": errorResponse,
+        },
       },
     },
-    '/api/tasks/{id}': {
-      parameters: [{ in: 'path', name: 'id', required: true, schema: { type: 'string', format: 'uuid' } }],
+    "/api/tasks/{id}": {
+      parameters: [
+        {
+          in: "path",
+          name: "id",
+          required: true,
+          schema: { type: "string", format: "uuid" },
+        },
+      ],
       get: {
-        tags: ['Tasks'],
-        summary: 'Get a task',
+        tags: ["Tasks"],
+        summary: "Get a task",
         security: [{ bearerAuth: [] }],
-        responses: { '200': taskResponse, '401': errorResponse, '404': errorResponse },
+        responses: {
+          "200": taskResponse,
+          "401": errorResponse,
+          "404": errorResponse,
+        },
       },
       patch: {
-        tags: ['Tasks'],
-        summary: 'Update a task',
+        tags: ["Tasks"],
+        summary: "Update a task",
         security: [{ bearerAuth: [] }],
-        requestBody: { required: true, content: { 'application/json': { schema: { $ref: '#/components/schemas/TaskInput' } } } },
-        responses: { '200': taskResponse, '400': errorResponse, '401': errorResponse, '404': errorResponse },
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/TaskInput" },
+            },
+          },
+        },
+        responses: {
+          "200": taskResponse,
+          "400": errorResponse,
+          "401": errorResponse,
+          "404": errorResponse,
+        },
       },
       delete: {
-        tags: ['Tasks'],
-        summary: 'Delete a task',
+        tags: ["Tasks"],
+        summary: "Delete a task",
         security: [{ bearerAuth: [] }],
-        responses: { '204': { description: 'Deleted' }, '401': errorResponse, '404': errorResponse },
+        responses: {
+          "204": { description: "Deleted" },
+          "401": errorResponse,
+          "404": errorResponse,
+        },
       },
     },
   },
   components: {
     securitySchemes: {
-      bearerAuth: { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+      bearerAuth: { type: "http", scheme: "bearer", bearerFormat: "JWT" },
     },
     responses: {
       AuthSuccess: {
-        description: 'Authenticated',
+        description: "Authenticated",
         content: {
-          'application/json': {
+          "application/json": {
             schema: {
-              type: 'object',
+              type: "object",
               properties: {
                 data: {
-                  type: 'object',
+                  type: "object",
                   properties: {
-                    user: { $ref: '#/components/schemas/User' },
-                    accessToken: { type: 'string' },
+                    user: { $ref: "#/components/schemas/User" },
+                    accessToken: { type: "string" },
                   },
                 },
               },
@@ -138,70 +219,86 @@ export const openApiDocument = {
     },
     schemas: {
       Credentials: {
-        type: 'object',
-        required: ['email', 'password'],
+        type: "object",
+        required: ["email", "password"],
         properties: {
-          email: { type: 'string', format: 'email', maxLength: 254 },
-          password: { type: 'string', minLength: 8, maxLength: 72, format: 'password' },
+          email: { type: "string", format: "email", maxLength: 254 },
+          password: {
+            type: "string",
+            minLength: 8,
+            maxLength: 72,
+            format: "password",
+          },
         },
       },
       Registration: {
         allOf: [
-          { $ref: '#/components/schemas/Credentials' },
+          { $ref: "#/components/schemas/Credentials" },
           {
-            type: 'object',
-            required: ['name'],
-            properties: { name: { type: 'string', minLength: 2, maxLength: 120 } },
+            type: "object",
+            required: ["name"],
+            properties: {
+              name: { type: "string", minLength: 2, maxLength: 120 },
+            },
           },
         ],
       },
       User: {
-        type: 'object',
-        required: ['id', 'name', 'email', 'role', 'createdAt', 'updatedAt'],
+        type: "object",
+        required: ["id", "name", "email", "role", "createdAt", "updatedAt"],
         properties: {
-          id: { type: 'string', format: 'uuid' },
-          name: { type: 'string' },
-          email: { type: 'string', format: 'email' },
-          role: { type: 'string', enum: ['user', 'admin'] },
-          createdAt: { type: 'string', format: 'date-time' },
-          updatedAt: { type: 'string', format: 'date-time' },
+          id: { type: "string", format: "uuid" },
+          name: { type: "string" },
+          email: { type: "string", format: "email" },
+          role: { type: "string", enum: ["user", "admin"] },
+          createdAt: { type: "string", format: "date-time" },
+          updatedAt: { type: "string", format: "date-time" },
         },
       },
-      TaskStatus: { type: 'string', enum: ['todo', 'in_progress', 'done'] },
+      TaskStatus: { type: "string", enum: ["todo", "in_progress", "done"] },
       TaskInput: {
-        type: 'object',
+        type: "object",
         properties: {
-          title: { type: 'string', minLength: 1, maxLength: 200 },
-          description: { type: ['string', 'null'], maxLength: 5000 },
-          status: { $ref: '#/components/schemas/TaskStatus' },
-          dueDate: { type: ['string', 'null'], format: 'date-time' },
+          title: { type: "string", minLength: 1, maxLength: 200 },
+          description: { type: ["string", "null"], maxLength: 5000 },
+          status: { $ref: "#/components/schemas/TaskStatus" },
+          dueDate: { type: ["string", "null"], format: "date-time" },
         },
       },
       Task: {
         allOf: [
-          { $ref: '#/components/schemas/TaskInput' },
+          { $ref: "#/components/schemas/TaskInput" },
           {
-            type: 'object',
-            required: ['id', 'title', 'description', 'status', 'dueDate', 'userId', 'createdAt', 'updatedAt'],
+            type: "object",
+            required: [
+              "id",
+              "title",
+              "description",
+              "status",
+              "dueDate",
+              "userId",
+              "createdAt",
+              "updatedAt",
+            ],
             properties: {
-              id: { type: 'string', format: 'uuid' },
-              userId: { type: 'string', format: 'uuid' },
-              createdAt: { type: 'string', format: 'date-time' },
-              updatedAt: { type: 'string', format: 'date-time' },
+              id: { type: "string", format: "uuid" },
+              userId: { type: "string", format: "uuid" },
+              createdAt: { type: "string", format: "date-time" },
+              updatedAt: { type: "string", format: "date-time" },
             },
           },
         ],
       },
       Error: {
-        type: 'object',
-        required: ['error'],
+        type: "object",
+        required: ["error"],
         properties: {
           error: {
-            type: 'object',
-            required: ['code', 'message'],
+            type: "object",
+            required: ["code", "message"],
             properties: {
-              code: { type: 'string' },
-              message: { type: 'string' },
+              code: { type: "string" },
+              message: { type: "string" },
               details: {},
             },
           },

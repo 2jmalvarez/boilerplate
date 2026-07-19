@@ -1,5 +1,5 @@
-import type { Pool } from 'pg';
-import type { Role } from '../../shared/types.js';
+import type { Pool } from "pg";
+import type { Role } from "../../shared/types.js";
 
 interface UserRow {
   id: string;
@@ -36,7 +36,11 @@ function mapUser(row: UserRow): UserRecord {
 export class AuthRepository {
   constructor(private readonly db: Pool) {}
 
-  async create(name: string, email: string, passwordHash: string): Promise<UserRecord> {
+  async create(
+    name: string,
+    email: string,
+    passwordHash: string,
+  ): Promise<UserRecord> {
     const result = await this.db.query<UserRow>(
       `INSERT INTO users (name, email, password_hash, role)
        VALUES ($1, $2, $3, 'user')

@@ -1,2 +1,24 @@
-import type { AppHeaderProps } from "./AppHeader.types"; import "./AppHeader.css";
-export function AppHeader({ actions, brand, subtitle, userName }: Readonly<AppHeaderProps>) { return <header className="site-header"><div className="brand">{brand}{subtitle && <small>{subtitle}</small>}</div>{(userName || actions) && <div className="account-block"><span className="account-label">Sesión</span>{userName && <strong>{userName}</strong>}{actions}</div>}</header>; }
+import type { AppHeaderProps } from "./AppHeader.types";
+import "./AppHeader.css";
+export function AppHeader({
+  actions,
+  brand,
+  subtitle,
+  userName,
+}: Readonly<AppHeaderProps>) {
+  return (
+    <header className="site-header">
+      <div className="brand">
+        {brand}
+        {subtitle && <small>{subtitle}</small>}
+      </div>
+      {(userName || actions) && (
+        <div className="account-block">
+          <span className="account-label">Sesión</span>
+          {userName && <strong>{userName}</strong>}
+          {actions}
+        </div>
+      )}
+    </header>
+  );
+}

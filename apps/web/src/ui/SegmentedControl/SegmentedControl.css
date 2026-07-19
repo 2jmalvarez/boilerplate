@@ -1,1 +1,28 @@
-.segmented-control { display:flex; align-self:stretch; overflow-x:auto; }.segmented-control button { min-height:100%; border:0; border-left:1px solid var(--line); padding:.5rem .9rem; background:var(--surface); color:var(--muted); font-size:.7rem; font-weight:700; white-space:nowrap; cursor:pointer; }.segmented-control button:hover:not(:disabled) { background:var(--surface-muted); color:var(--navy); }.segmented-control button.segmented-control-active { background:var(--blue-soft); color:var(--navy); }.segmented-control-compact button { min-height:38px; }
+.segmented-control {
+  display: flex;
+  align-self: stretch;
+  overflow-x: auto;
+}
+.segmented-control button {
+  min-height: 100%;
+  border: 0;
+  border-left: 1px solid var(--line);
+  padding: 0.5rem 0.9rem;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.segmented-control button:hover:not(:disabled) {
+  background: var(--surface-muted);
+  color: var(--navy);
+}
+.segmented-control button.segmented-control-active {
+  background: var(--blue-soft);
+  color: var(--navy);
+}
+.segmented-control-compact button {
+  min-height: 38px;
+}

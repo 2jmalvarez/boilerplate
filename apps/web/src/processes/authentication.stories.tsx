@@ -26,7 +26,10 @@ export const Login: Story = {
   },
   play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
-    await userEvent.type(canvas.getByLabelText("Correo electrónico"), "ana@pliego.test");
+    await userEvent.type(
+      canvas.getByLabelText("Correo electrónico"),
+      "ana@pliego.test",
+    );
     await userEvent.type(canvas.getByLabelText("Contraseña"), "secreto123");
     await userEvent.click(canvas.getByRole("button", { name: "Entrar" }));
     await expect(args.onSubmit).toHaveBeenCalledWith({
@@ -46,7 +49,10 @@ export const Registration: Story = {
   play: async ({ args, canvasElement }) => {
     const canvas = within(canvasElement);
     await userEvent.type(canvas.getByLabelText("Nombre"), "Ana López");
-    await userEvent.type(canvas.getByLabelText("Correo electrónico"), "ana@pliego.test");
+    await userEvent.type(
+      canvas.getByLabelText("Correo electrónico"),
+      "ana@pliego.test",
+    );
     await userEvent.type(canvas.getByLabelText("Contraseña"), "secreto123");
     await userEvent.click(canvas.getByRole("button", { name: "Crear cuenta" }));
     await expect(args.onSubmit).toHaveBeenCalledWith({

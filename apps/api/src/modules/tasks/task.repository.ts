@@ -1,5 +1,10 @@
-import type { Pool } from 'pg';
-import type { TaskStatus, CreateTaskInput, ListTasksInput, UpdateTaskInput } from './task.schemas.js';
+import type { Pool } from "pg";
+import type {
+  TaskStatus,
+  CreateTaskInput,
+  ListTasksInput,
+  UpdateTaskInput,
+} from "./task.schemas.js";
 
 interface TaskRow {
   id: string;
@@ -23,7 +28,8 @@ export interface Task {
   updatedAt: string;
 }
 
-const columns = 'id, title, description, status, due_date, user_id, created_at, updated_at';
+const columns =
+  "id, title, description, status, due_date, user_id, created_at, updated_at";
 
 function mapTask(row: TaskRow): Task {
   return {
@@ -63,7 +69,7 @@ export class TaskRepository {
       conditions.push(`status = $${values.length}`);
     }
     values.push(input.limit, input.offset);
-    const where = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
+    const where = conditions.length ? `WHERE ${conditions.join(" AND ")}` : "";
     const result = await this.db.query<TaskRow>(
       `SELECT ${columns} FROM tasks ${where}
        ORDER BY created_at DESC LIMIT $${values.length - 1} OFFSET $${values.length}`,
@@ -73,7 +79,10 @@ export class TaskRepository {
   }
 
   async findById(id: string): Promise<Task | null> {
-    const result = await this.db.query<TaskRow>(`SELECT ${columns} FROM tasks WHERE id = $1`, [id]);
+    const result = await this.db.query<TaskRow>(
+      `SELECT ${columns} FROM tasks WHERE id = $1`,
+      [id],
+    );
     return result.rows[0] ? mapTask(result.rows[0]) : null;
   }
 
@@ -81,10 +90,10 @@ export class TaskRepository {
     const assignments: string[] = [];
     const values: unknown[] = [];
     const fieldColumns: Array<[keyof UpdateTaskInput, string]> = [
-      ['title', 'title'],
-      ['description', 'description'],
-      ['status', 'status'],
-      ['dueDate', 'due_date'],
+      ["title", "title"],
+      ["description", "description"],
+      ["status", "status"],
+      ["dueDate", "due_date"],
     ];
 
     for (const [field, column] of fieldColumns) {
@@ -95,7 +104,7 @@ export class TaskRepository {
     }
     values.push(id);
     const result = await this.db.query<TaskRow>(
-      `UPDATE tasks SET ${assignments.join(', ')}, updated_at = NOW()
+      `UPDATE tasks SET ${assignments.join(", ")}, updated_at = NOW()
        WHERE id = $${values.length} RETURNING ${columns}`,
       values,
     );
@@ -103,7 +112,7 @@ export class TaskRepository {
   }
 
   async delete(id: string): Promise<boolean> {
-    const result = await this.db.query('DELETE FROM tasks WHERE id = $1', [id]);
+    const result = await this.db.query("DELETE FROM tasks WHERE id = $1", [id]);
     return result.rowCount === 1;
   }
 }
