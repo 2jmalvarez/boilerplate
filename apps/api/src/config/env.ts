@@ -18,6 +18,11 @@ const envSchema = z.object({
   JWT_ISSUER: z.string().min(1),
   JWT_AUDIENCE: z.string().min(1),
   CORS_ORIGIN: z.string().min(1),
+  HTTP_LOG_LEVEL: z.enum(["off", "basic", "detailed"]).default("detailed"),
+  HTTP_LOG_COLORS: z
+    .enum(["true", "false"])
+    .transform((value) => value === "true")
+    .default(true),
 });
 
 const result = envSchema.safeParse(process.env);

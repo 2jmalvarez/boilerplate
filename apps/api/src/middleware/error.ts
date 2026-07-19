@@ -2,7 +2,6 @@ import type { ErrorRequestHandler, RequestHandler } from "express";
 import { ZodError } from "zod";
 import { AppError } from "../shared/app-error.js";
 import { sendError } from "../shared/http-response.js";
-import { logger } from "../shared/logger.js";
 
 export const notFound: RequestHandler = (req, _res, next) => {
   next(
@@ -12,11 +11,15 @@ export const notFound: RequestHandler = (req, _res, next) => {
 
 export const errorHandler: ErrorRequestHandler = (
   error: unknown,
-  req,
+  _req,
   res,
   _next,
 ) => {
   if (error instanceof ZodError) {
+    res.locals.requestError = {
+      code: "VALIDATION_ERROR",
+      message: "Request validation failed",
+    };
     sendError(
       res,
       400,
@@ -35,6 +38,11 @@ export const errorHandler: ErrorRequestHandler = (
     "status" in error &&
     error.status === 400
   ) {
+    res.locals.requestError = {
+      code: "INVALID_JSON",
+      message: "Malformed JSON body",
+      cause: error.message,
+    };
     sendError(res, 400, "INVALID_JSON", "Malformed JSON body");
     return;
   }
@@ -44,14 +52,14 @@ export const errorHandler: ErrorRequestHandler = (
       ? error
       : new AppError(500, "INTERNAL_ERROR", "Internal server error");
 
-  if (appError.status >= 500) {
-    logger.error("request_failed", {
-      method: req.method,
-      path: req.path,
-      status: appError.status,
-      code: appError.code,
-    });
-  }
+  res.locals.requestError = {
+    code: appError.code,
+    message: appError.message,
+    cause:
+      error instanceof Error && error.message !== appError.message
+        ? error.message
+        : undefined,
+  };
 
   sendError(
     res,
