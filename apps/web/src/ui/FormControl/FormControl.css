@@ -1,0 +1,27 @@
+.form-control {
+  width: 100%;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  padding: 0.7rem 0.75rem;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 0.9rem;
+  outline: none;
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+.form-control:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px var(--blue-soft);
+}
+.form-control[aria-invalid="true"] {
+  border-color: var(--red);
+}
+.form-control-textarea {
+  resize: vertical;
+  line-height: 1.5;
+}
+.form-control-select {
+  cursor: pointer;
+}

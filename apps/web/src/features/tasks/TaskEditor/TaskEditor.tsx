@@ -1,9 +1,13 @@
 import { X } from "lucide-react";
 import { useEffect, useRef, useState, type ComponentProps } from "react";
 import { Button } from "../../../ui/Button/Button";
+import { FormError } from "../../../ui/FormError/FormError";
 import { FormField } from "../../../ui/FormField/FormField";
 import { IconButton } from "../../../ui/IconButton/IconButton";
+import { Input } from "../../../ui/Input/Input";
 import { Modal } from "../../../ui/Modal/Modal";
+import { Select } from "../../../ui/Select/Select";
+import { Textarea } from "../../../ui/Textarea/Textarea";
 import type { TaskInput, TaskStatus } from "../../../types/api";
 import type { TaskEditorProps } from "./TaskEditor.types";
 import "./TaskEditor.css";
@@ -63,58 +67,70 @@ export function TaskEditor({
         </header>
         <form onSubmit={submit}>
           <FormField label="Título" required>
-            <input
-              autoFocus
-              maxLength={120}
-              ref={inputRef}
-              required
-              value={draft.title}
-              onChange={(event) =>
-                setDraft({ ...draft, title: event.target.value })
-              }
-            />
+            {({ describedBy, invalid }) => (
+              <Input
+                aria-describedby={describedBy}
+                autoFocus
+                invalid={invalid}
+                maxLength={120}
+                ref={inputRef}
+                required
+                value={draft.title}
+                onChange={(event) =>
+                  setDraft({ ...draft, title: event.target.value })
+                }
+              />
+            )}
           </FormField>
           <FormField label="Descripción">
-            <textarea
-              maxLength={1000}
-              rows={5}
-              value={draft.description ?? ""}
-              onChange={(event) =>
-                setDraft({ ...draft, description: event.target.value })
-              }
-            />
+            {({ describedBy, invalid }) => (
+              <Textarea
+                aria-describedby={describedBy}
+                invalid={invalid}
+                maxLength={1000}
+                rows={5}
+                value={draft.description ?? ""}
+                onChange={(event) =>
+                  setDraft({ ...draft, description: event.target.value })
+                }
+              />
+            )}
           </FormField>
           <div className="editor-fields">
             <FormField label="Estado">
-              <select
-                value={draft.status}
-                onChange={(event) =>
-                  setDraft({
-                    ...draft,
-                    status: event.target.value as TaskStatus,
-                  })
-                }
-              >
-                <option value="todo">Pendiente</option>
-                <option value="in_progress">En curso</option>
-                <option value="done">Terminada</option>
-              </select>
+              {({ describedBy, invalid }) => (
+                <Select
+                  aria-describedby={describedBy}
+                  invalid={invalid}
+                  value={draft.status}
+                  onChange={(event) =>
+                    setDraft({
+                      ...draft,
+                      status: event.target.value as TaskStatus,
+                    })
+                  }
+                >
+                  <option value="todo">Pendiente</option>
+                  <option value="in_progress">En curso</option>
+                  <option value="done">Terminada</option>
+                </Select>
+              )}
             </FormField>
             <FormField label="Fecha límite">
-              <input
-                type="date"
-                value={draft.dueDate ?? ""}
-                onChange={(event) =>
-                  setDraft({ ...draft, dueDate: event.target.value })
-                }
-              />
+              {({ describedBy, invalid }) => (
+                <Input
+                  aria-describedby={describedBy}
+                  invalid={invalid}
+                  type="date"
+                  value={draft.dueDate ?? ""}
+                  onChange={(event) =>
+                    setDraft({ ...draft, dueDate: event.target.value })
+                  }
+                />
+              )}
             </FormField>
           </div>
-          {error && (
-            <p className="form-error" role="alert">
-              {error}
-            </p>
-          )}
+          {error && <FormError>{error}</FormError>}
           <div className="editor-actions">
             <Button type="button" variant="quiet" onClick={onCancel}>
               Cancelar

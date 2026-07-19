@@ -1,11 +1,19 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { FormField } from "./FormField";
+import { Input } from "../Input/Input";
 const meta = {
   title: "Design System/UI/FormField",
   component: FormField,
   args: {
     label: "Correo electrónico",
-    children: <input type="email" placeholder="nombre@ejemplo.com" />,
+    children: ({ describedBy, invalid }) => (
+      <Input
+        aria-describedby={describedBy}
+        invalid={invalid}
+        placeholder="nombre@ejemplo.com"
+        type="email"
+      />
+    ),
   },
 } satisfies Meta<typeof FormField>;
 export default meta;

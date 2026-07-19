@@ -1,0 +1,9 @@
+.form-error {
+  margin: 0;
+  border: 1px solid #f7c8c4;
+  border-radius: 6px;
+  padding: 0.7rem 0.8rem;
+  background: var(--red-soft);
+  color: var(--red);
+  font-size: 0.82rem;
+}

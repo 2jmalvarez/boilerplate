@@ -42,6 +42,22 @@
 .button-quiet:hover:not(:disabled) {
   background: var(--surface-muted);
 }
+.button-ghost {
+  min-height: auto;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  border-radius: 0;
+  padding: 0.2rem 0;
+  background: transparent;
+  color: inherit;
+  font-size: inherit;
+}
+.button-ghost:hover:not(:disabled) {
+  border-color: currentColor;
+  background: transparent;
+  box-shadow: none;
+  opacity: 0.75;
+}
 .button-danger {
   border-color: var(--red);
   background: var(--red);

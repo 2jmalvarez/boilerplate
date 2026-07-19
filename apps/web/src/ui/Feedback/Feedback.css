@@ -25,12 +25,3 @@
 .feedback-error .feedback-icon {
   color: var(--red);
 }
-.text-button {
-  border: 0;
-  border-bottom: 1px solid currentColor;
-  padding: 0.2rem 0;
-  background: transparent;
-  color: inherit;
-  font-weight: 700;
-  cursor: pointer;
-}

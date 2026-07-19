@@ -1,4 +1,5 @@
 import { AlertTriangle, Inbox, LoaderCircle } from "lucide-react";
+import { Button } from "../Button/Button";
 import { feedbackVariants } from "./Feedback.variant";
 import type { StatePanelProps } from "./Feedback.types";
 import "./Feedback.css";
@@ -38,9 +39,9 @@ export function ErrorState({
     <StatePanel
       action={
         onRetry && (
-          <button className="text-button" type="button" onClick={onRetry}>
+          <Button type="button" variant="ghost" onClick={onRetry}>
             Reintentar
-          </button>
+          </Button>
         )
       }
       icon={<AlertTriangle aria-hidden="true" />}

@@ -6,6 +6,7 @@ import { taskStatusLabels } from "../features/tasks/TaskStatusBadge/TaskStatusBa
 import { api, getErrorMessage } from "../lib/api";
 import { Button } from "../ui/Button/Button";
 import { ConfirmDialog } from "../ui/ConfirmDialog/ConfirmDialog";
+import { FormError } from "../ui/FormError/FormError";
 import { MetricCard } from "../ui/MetricCard/MetricCard";
 import { PageHeader } from "../ui/PageHeader/PageHeader";
 import { SegmentedControl } from "../ui/SegmentedControl/SegmentedControl";
@@ -19,6 +20,16 @@ const filters: ReadonlyArray<{ label: string; value: Filter }> = [
     value: status,
   })),
 ];
+
+function replaceTask(tasks: Task[], updatedTask: Task): Task[] {
+  return tasks.map((task) =>
+    task.id === updatedTask.id ? updatedTask : task,
+  );
+}
+
+function removeTask(tasks: Task[], taskId: string): Task[] {
+  return tasks.filter((task) => task.id !== taskId);
+}
 
 /** Orchestrates task loading, mutations, filtering, and the task feature UI. */
 export function DashboardPage() {
@@ -67,11 +78,7 @@ export function DashboardPage() {
           input,
         );
         startTransition(() =>
-          setTasks((current) =>
-            current.map((task) =>
-              task.id === editing.id ? response.data.data : task,
-            ),
-          ),
+          setTasks((current) => replaceTask(current, response.data.data)),
         );
       }
       setEditing(null);
@@ -87,7 +94,7 @@ export function DashboardPage() {
     try {
       await api.delete<ApiEnvelope<null>>(`/tasks/${task.id}`);
       startTransition(() =>
-        setTasks((current) => current.filter((item) => item.id !== task.id)),
+        setTasks((current) => removeTask(current, task.id)),
       );
       if (editing !== "new" && editing?.id === task.id) setEditing(null);
       setPendingDeletion(null);
@@ -139,11 +146,7 @@ export function DashboardPage() {
             value={filter}
           />
         </header>
-        {mutationError && !editing && (
-          <p className="form-error" role="alert">
-            {mutationError}
-          </p>
-        )}
+        {mutationError && !editing && <FormError>{mutationError}</FormError>}
         <TaskRegister
           emptyDescription={
             filter === "all"

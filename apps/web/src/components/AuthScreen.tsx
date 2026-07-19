@@ -1,10 +1,12 @@
 import { ArrowRight, SquareCheckBig } from "lucide-react";
-import { useState, type FormEvent, type ReactNode } from "react";
+import { useState, type FormEventHandler, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { AuthLayout } from "../layouts/AuthLayout/AuthLayout";
 import { getErrorMessage } from "../lib/api";
 import { Button } from "../ui/Button/Button";
+import { FormError } from "../ui/FormError/FormError";
 import { FormField } from "../ui/FormField/FormField";
+import { Input } from "../ui/Input/Input";
 
 /** Props for the authentication process form rendered inside `AuthLayout`. */
 interface AuthScreenProps {
@@ -26,7 +28,7 @@ export function AuthScreen({
   const [values, setValues] = useState({ name: "", email: "", password: "" });
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
     event.preventDefault();
     setError("");
     setSubmitting(true);
@@ -36,7 +38,7 @@ export function AuthScreen({
       setError(getErrorMessage(submitError));
       setSubmitting(false);
     }
-  }
+  };
   return (
     <AuthLayout
       brand={
@@ -68,47 +70,55 @@ export function AuthScreen({
         <form className="auth-form" onSubmit={handleSubmit}>
           {isRegister && (
             <FormField label="Nombre" required>
-              <input
-                autoComplete="name"
-                name="name"
-                required
-                value={values.name}
-                onChange={(event) =>
-                  setValues({ ...values, name: event.target.value })
-                }
-              />
+              {({ describedBy, invalid }) => (
+                <Input
+                  aria-describedby={describedBy}
+                  autoComplete="name"
+                  invalid={invalid}
+                  name="name"
+                  required
+                  value={values.name}
+                  onChange={(event) =>
+                    setValues({ ...values, name: event.target.value })
+                  }
+                />
+              )}
             </FormField>
           )}
           <FormField label="Correo electrónico" required>
-            <input
-              autoComplete="email"
-              name="email"
-              required
-              type="email"
-              value={values.email}
-              onChange={(event) =>
-                setValues({ ...values, email: event.target.value })
-              }
-            />
+            {({ describedBy, invalid }) => (
+              <Input
+                aria-describedby={describedBy}
+                autoComplete="email"
+                invalid={invalid}
+                name="email"
+                required
+                type="email"
+                value={values.email}
+                onChange={(event) =>
+                  setValues({ ...values, email: event.target.value })
+                }
+              />
+            )}
           </FormField>
           <FormField label="Contraseña" required>
-            <input
-              autoComplete={isRegister ? "new-password" : "current-password"}
-              minLength={8}
-              name="password"
-              required
-              type="password"
-              value={values.password}
-              onChange={(event) =>
-                setValues({ ...values, password: event.target.value })
-              }
-            />
+            {({ describedBy, invalid }) => (
+              <Input
+                aria-describedby={describedBy}
+                autoComplete={isRegister ? "new-password" : "current-password"}
+                invalid={invalid}
+                minLength={8}
+                name="password"
+                required
+                type="password"
+                value={values.password}
+                onChange={(event) =>
+                  setValues({ ...values, password: event.target.value })
+                }
+              />
+            )}
           </FormField>
-          {error && (
-            <p className="form-error" role="alert">
-              {error}
-            </p>
-          )}
+          {error && <FormError>{error}</FormError>}
           <Button
             className="auth-submit"
             loading={submitting}

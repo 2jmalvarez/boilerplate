@@ -14,6 +14,9 @@ export const Primary: Story = { args: { variant: "primary" } };
 export const Quiet: Story = {
   args: { children: "Cancelar", variant: "quiet" },
 };
+export const Ghost: Story = {
+  args: { children: "Reintentar", variant: "ghost" },
+};
 export const Danger: Story = {
   args: { children: "Eliminar", variant: "danger" },
 };

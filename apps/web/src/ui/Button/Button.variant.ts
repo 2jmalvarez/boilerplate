@@ -6,6 +6,7 @@ export const buttonVariants = cva("button", {
       default: "button-default",
       primary: "button-primary",
       quiet: "button-quiet",
+      ghost: "button-ghost",
       danger: "button-danger",
     },
     size: {
