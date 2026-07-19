@@ -72,4 +72,23 @@ describe("DashboardPage", () => {
     );
     expect(screen.getByLabelText("Estado")).toHaveProperty("value", task.status);
   });
+
+  it("confirma antes de eliminar una tarea", async () => {
+    api.get.mockResolvedValue({ data: { data: [task] } });
+    api.delete.mockResolvedValue({ data: { data: null } });
+    const user = userEvent.setup();
+
+    render(<DashboardPage />);
+
+    await user.click(
+      await screen.findByRole("button", { name: "Borrar Preparar informe mensual" }),
+    );
+
+    expect(screen.getByRole("dialog", { name: "¿Eliminar esta tarea?" })).not.toBeNull();
+    expect(api.delete).not.toHaveBeenCalled();
+
+    await user.click(screen.getByRole("button", { name: "Eliminar tarea" }));
+
+    expect(api.delete).toHaveBeenCalledWith("/tasks/task-1");
+  });
 });

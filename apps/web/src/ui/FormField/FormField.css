@@ -1,0 +1,1 @@
+.form-field { display:grid; gap:.45rem; color:#344258; font-size:.76rem; font-weight:700; }.form-field-label-required::after { color:var(--red); content:" *"; }.form-field small { color:var(--muted); font-size:.72rem; font-weight:500; }.form-field .form-field-error { color:var(--red); }

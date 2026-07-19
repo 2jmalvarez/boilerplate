@@ -1,0 +1,1 @@
+import type { Task, TaskInput } from "../../../types/api"; export interface TaskEditorProps { error: string; onCancel: () => void; onSave: (input: TaskInput) => Promise<void>; saving: boolean; task: Task | null; }

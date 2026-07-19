@@ -1,0 +1,2 @@
+import type { Meta, StoryObj } from "@storybook/react-vite"; import { TaskEditor } from "./TaskEditor";
+const meta = { title: "Features/Tasks/TaskEditor", component: TaskEditor, parameters: { layout: "fullscreen" }, args: { task: null, saving: false, error: "", onCancel: () => undefined, onSave: async () => undefined } } satisfies Meta<typeof TaskEditor>; export default meta; type Story = StoryObj<typeof meta>; export const Create: Story = {}; export const Saving: Story = { args: { saving: true } };
