@@ -6,6 +6,7 @@ import { confirmDialogVariants } from "./ConfirmDialog.variant";
 import type { ConfirmDialogProps } from "./ConfirmDialog.types";
 import "./ConfirmDialog.css";
 
+/** Renders a confirmation workflow for consequential user actions. */
 export function ConfirmDialog({
   cancelLabel = "Cancelar",
   confirmLabel = "Confirmar",

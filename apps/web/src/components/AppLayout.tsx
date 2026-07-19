@@ -5,6 +5,7 @@ import { AppHeader } from "../layouts/AppHeader/AppHeader";
 import { AppShell } from "../layouts/AppShell/AppShell";
 import { Button } from "../ui/Button/Button";
 
+/** Connects the presentational application shell with the current auth session and router. */
 export function AppLayout() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();

@@ -6,7 +6,9 @@ import { getErrorMessage } from "../lib/api";
 import { Button } from "../ui/Button/Button";
 import { FormField } from "../ui/FormField/FormField";
 
-interface AuthScreenProps { footer: ReactNode; mode: "login" | "register"; onSubmit: (values: { name: string; email: string; password: string }) => Promise<void>; }
+/** Props for the authentication process form rendered inside `AuthLayout`. */
+interface AuthScreenProps { /** Navigation or registration prompt. */ footer: ReactNode; /** Authentication flow to display. */ mode: "login" | "register"; /** Persists submitted credentials. */ onSubmit: (values: { name: string; email: string; password: string }) => Promise<void>; }
+/** Implements the login and registration form process. */
 export function AuthScreen({ footer, mode, onSubmit }: Readonly<AuthScreenProps>) {
   const isRegister = mode === "register"; const [values, setValues] = useState({ name: "", email: "", password: "" }); const [error, setError] = useState(""); const [submitting, setSubmitting] = useState(false);
   async function handleSubmit(event: FormEvent<HTMLFormElement>) { event.preventDefault(); setError(""); setSubmitting(true); try { await onSubmit(values); } catch (submitError) { setError(getErrorMessage(submitError)); setSubmitting(false); } }

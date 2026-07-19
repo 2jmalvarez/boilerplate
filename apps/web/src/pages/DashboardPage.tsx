@@ -14,6 +14,7 @@ import type { ApiEnvelope, Task, TaskInput, TaskStatus } from "../types/api";
 type Filter = "all" | TaskStatus;
 const filters: ReadonlyArray<{ label: string; value: Filter }> = [{ label: "Todas", value: "all" }, ...(["todo", "in_progress", "done"] as TaskStatus[]).map((status) => ({ label: taskStatusLabels[status], value: status }))];
 
+/** Orchestrates task loading, mutations, filtering, and the task feature UI. */
 export function DashboardPage() {
   const [tasks, setTasks] = useState<Task[]>([]); const [filter, setFilter] = useState<Filter>("all"); const [loading, setLoading] = useState(true); const [error, setError] = useState(""); const [editing, setEditing] = useState<Task | "new" | null>(null); const [saving, setSaving] = useState(false); const [deleting, setDeleting] = useState(false); const [pendingDeletion, setPendingDeletion] = useState<Task | null>(null); const [mutationError, setMutationError] = useState("");
   async function loadTasks() { setLoading(true); setError(""); try { const response = await api.get<ApiEnvelope<Task[]>>("/tasks"); startTransition(() => setTasks(response.data.data)); } catch (loadError) { setError(getErrorMessage(loadError)); } finally { setLoading(false); } }
