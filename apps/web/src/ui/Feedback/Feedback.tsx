@@ -3,7 +3,7 @@ import { Button } from "../Button/Button";
 import { feedbackVariants } from "./Feedback.variant";
 import type { StatePanelProps } from "./Feedback.types";
 import "./Feedback.css";
-export function StatePanel({
+function StatePanel({
   action,
   description,
   icon,

@@ -2,51 +2,43 @@ import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import type { ModalProps } from "./Modal.types";
 import "./Modal.css";
-/** Renders an accessible portal dialog with Escape, backdrop, and focus restoration behavior. */
+/** Renders a native modal dialog with focus trapping and focus restoration. */
 export function Modal({
   children,
   describedBy,
   labelledBy,
   onClose,
 }: Readonly<ModalProps>) {
-  const dialogRef = useRef<HTMLElement>(null);
-  const restoreRef = useRef<HTMLElement | null>(
-    document.activeElement instanceof HTMLElement
-      ? document.activeElement
-      : null,
-  );
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
   useEffect(() => {
-    const restoreTarget = restoreRef.current;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") onClose();
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+
+    dialog.showModal();
+
+    function handleCancel(event: Event) {
+      event.preventDefault();
+      onClose();
     }
-    window.addEventListener("keydown", onKeyDown);
+
+    dialog.addEventListener("cancel", handleCancel);
+
     return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", onKeyDown);
-      restoreTarget?.focus();
+      dialog.removeEventListener("cancel", handleCancel);
+      dialog.close();
     };
   }, [onClose]);
+
   return createPortal(
-    <div
-      className="modal-backdrop"
-      onMouseDown={(event) => {
-        if (event.target === event.currentTarget) onClose();
-      }}
+    <dialog
+      aria-describedby={describedBy}
+      aria-labelledby={labelledBy}
+      className="modal"
+      ref={dialogRef}
     >
-      <section
-        aria-describedby={describedBy}
-        aria-labelledby={labelledBy}
-        aria-modal="true"
-        className="modal"
-        ref={dialogRef}
-        role="dialog"
-      >
-        {children}
-      </section>
-    </div>,
+      {children}
+    </dialog>,
     document.body,
   );
 }

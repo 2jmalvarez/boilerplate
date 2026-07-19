@@ -4,5 +4,5 @@ export interface ModalProps {
   /** Dialog content. */ children: ReactNode;
   /** ID of the descriptive content, when present. */ describedBy?: string;
   /** ID of the dialog heading. */ labelledBy: string;
-  /** Closes the dialog via Escape or backdrop interaction. */ onClose: () => void;
+  /** Closes the dialog via Escape or an explicit close control. */ onClose: () => void;
 }

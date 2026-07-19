@@ -12,6 +12,8 @@
     "lint": "pnpm -r lint",
     "typecheck": "pnpm -r typecheck",
     "test": "pnpm -r test",
+    "doctor": "pnpm --filter @boilerplate/web run doctor",
+    "doctor:changed": "pnpm --filter @boilerplate/web run doctor:changed",
     "test:unit": "pnpm --filter @boilerplate/api test:unit && pnpm --filter @boilerplate/web test",
     "test:integration": "pnpm --filter @boilerplate/api test:integration",
     "e2e": "pnpm --filter @boilerplate/web e2e",

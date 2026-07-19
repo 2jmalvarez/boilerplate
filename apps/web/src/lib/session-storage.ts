@@ -1,17 +1,28 @@
 import type { AuthSession } from "../types/api";
 
-const SESSION_KEY = "pliego.auth";
+const SESSION_KEY = "pliego.auth:v1";
+const LEGACY_SESSION_KEY = "pliego.auth";
 
 export function readSession(): AuthSession | null {
   const stored = localStorage.getItem(SESSION_KEY);
+  const isLegacySession = !stored;
+  const sessionValue = stored ?? localStorage.getItem(LEGACY_SESSION_KEY);
 
-  if (!stored) return null;
+  if (!sessionValue) return null;
 
   try {
-    const session = JSON.parse(stored) as AuthSession;
-    return session.accessToken && session.user ? session : null;
+    const session = JSON.parse(sessionValue) as AuthSession;
+    if (!session.accessToken || !session.user) return null;
+
+    if (isLegacySession) {
+      writeSession(session);
+      localStorage.removeItem(LEGACY_SESSION_KEY);
+    }
+
+    return session;
   } catch {
     localStorage.removeItem(SESSION_KEY);
+    localStorage.removeItem(LEGACY_SESSION_KEY);
     return null;
   }
 }

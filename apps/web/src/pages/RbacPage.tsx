@@ -31,9 +31,12 @@ function getUserRoleIds(
   roleId: string,
   isAssigned: boolean,
 ): string[] {
-  const assignedRoleIds = roles
-    .filter((role) => assignedRoleNames.includes(role.name))
-    .map((role) => role.id);
+  const assignedRoleNameSet = new Set(assignedRoleNames);
+  const assignedRoleIds: string[] = [];
+
+  for (const role of roles) {
+    if (assignedRoleNameSet.has(role.name)) assignedRoleIds.push(role.id);
+  }
 
   return isAssigned
     ? [...assignedRoleIds, roleId]
@@ -96,6 +99,7 @@ export function RbacPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
+  const draftPermissionKeySet = new Set(draft.permissionKeys);
 
   async function load() {
     setError("");
@@ -251,7 +255,7 @@ export function RbacPage() {
                   <label key={permission.key}>
                     <input
                       type="checkbox"
-                      checked={draft.permissionKeys.includes(permission.key)}
+                      checked={draftPermissionKeySet.has(permission.key)}
                       onChange={() => togglePermission(permission.key)}
                     />{" "}
                     <span>

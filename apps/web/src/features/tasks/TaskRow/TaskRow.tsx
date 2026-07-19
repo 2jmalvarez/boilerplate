@@ -3,6 +3,13 @@ import { IconButton } from "../../../ui/IconButton/IconButton";
 import { TaskStatusBadge } from "../TaskStatusBadge/TaskStatusBadge";
 import type { TaskRowProps } from "./TaskRow.types";
 import "./TaskRow.css";
+
+const dateFormatter = new Intl.DateTimeFormat("es", {
+  day: "2-digit",
+  month: "short",
+  year: "numeric",
+});
+
 export function TaskRow({
   index,
   onDelete,
@@ -44,9 +51,7 @@ export function TaskRow({
   );
 }
 function formatDate(value: string) {
-  return new Intl.DateTimeFormat("es", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  }).format(new Date(value.includes("T") ? value : `${value}T00:00:00`));
+  return dateFormatter.format(
+    new Date(value.includes("T") ? value : `${value}T00:00:00`),
+  );
 }
