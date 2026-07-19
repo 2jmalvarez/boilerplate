@@ -1,5 +1,5 @@
 import { ArrowRight, SquareCheckBig } from "lucide-react";
-import { useState, type FormEventHandler, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { AuthLayout } from "../layouts/AuthLayout/AuthLayout";
 import { getErrorMessage } from "../lib/api";
@@ -28,8 +28,7 @@ export function AuthScreen({
   const [values, setValues] = useState({ name: "", email: "", password: "" });
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
-    event.preventDefault();
+  async function submitCredentials() {
     setError("");
     setSubmitting(true);
     try {
@@ -38,7 +37,7 @@ export function AuthScreen({
       setError(getErrorMessage(submitError));
       setSubmitting(false);
     }
-  };
+  }
   return (
     <AuthLayout
       brand={
@@ -67,7 +66,13 @@ export function AuthScreen({
           <span>{isRegister ? "Nuevo registro" : "Acceso reservado"}</span>
           <h2>{isRegister ? "Abre tu archivo" : "Vuelve al tablero"}</h2>
         </div>
-        <form className="auth-form" onSubmit={handleSubmit}>
+        <form
+          className="auth-form"
+          onSubmit={(event) => {
+            event.preventDefault();
+            void submitCredentials();
+          }}
+        >
           {isRegister && (
             <FormField label="Nombre" required>
               {({ describedBy, invalid }) => (

@@ -1,5 +1,5 @@
 import { Plus, Save, ShieldCheck, Trash2, Users } from "lucide-react";
-import { useEffect, useState, type FormEventHandler } from "react";
+import { useEffect, useState } from "react";
 import { api, getErrorMessage } from "../lib/api";
 import type { ApiEnvelope, Role, RoleInput, UserRoleInput } from "../types/api";
 import { Button } from "../ui/Button/Button";
@@ -135,8 +135,7 @@ export function RbacPage() {
     }));
   }
 
-  const saveRole: FormEventHandler<HTMLFormElement> = async (event) => {
-    event.preventDefault();
+  async function saveRole() {
     setSaving(true);
     setError("");
     try {
@@ -150,7 +149,7 @@ export function RbacPage() {
     } finally {
       setSaving(false);
     }
-  };
+  }
 
   async function deleteRole(id: string) {
     if (
@@ -203,7 +202,13 @@ export function RbacPage() {
               {editingId ? "Editar rol" : "Nuevo rol"}
             </h2>
           </div>
-          <form className="rbac-form" onSubmit={saveRole}>
+          <form
+            className="rbac-form"
+            onSubmit={(event) => {
+              event.preventDefault();
+              void saveRole();
+            }}
+          >
             <label>
               <span>Nombre</span>
               <input
