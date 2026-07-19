@@ -28,7 +28,7 @@ jobs:
       JWT_SECRET: ci-secret-that-is-longer-than-thirty-two-characters
       JWT_ISSUER: boilerplate-api
       JWT_AUDIENCE: boilerplate-clients
-      CORS_ORIGIN: http://localhost:5173
+      CORS_ORIGIN: http://localhost:5180
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4

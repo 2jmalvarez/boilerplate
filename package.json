@@ -20,6 +20,7 @@
     "db:down": "docker compose down",
     "db:reset": "docker compose down -v && docker compose up -d postgres",
     "db:migrate": "pnpm --filter @boilerplate/api db:migrate",
+    "db:seed": "pnpm --filter @boilerplate/api db:seed",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "push": "node scripts/push-with-version.mjs",

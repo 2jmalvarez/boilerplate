@@ -34,6 +34,7 @@ pnpm install
 cp apps/api/.env.example apps/api/.env
 pnpm db:up
 pnpm db:migrate
+pnpm db:seed
 pnpm dev
 ```
 
@@ -43,11 +44,11 @@ En PowerShell, reemplazá el comando `cp` por:
 Copy-Item apps/api/.env.example apps/api/.env
 ```
 
-- Web: <http://localhost:5173>
-- API: <http://localhost:3000>
-- OpenAPI: <http://localhost:3000/docs>
-- Liveness: <http://localhost:3000/health>
-- Readiness: <http://localhost:3000/ready>
+- Web: <http://localhost:5180>
+- API: <http://localhost:3180>
+- OpenAPI: <http://localhost:3180/docs>
+- Liveness: <http://localhost:3180/health>
+- Readiness: <http://localhost:3180/ready>
 
 Registrá el primer usuario desde la interfaz. No se incluyen contraseñas ni usuarios predeterminados.
 
@@ -75,6 +76,7 @@ pnpm test:integration
 pnpm e2e
 pnpm db:up
 pnpm db:migrate
+pnpm db:seed
 pnpm db:reset
 pnpm db:down
 pnpm push                # incrementa patch, crea el commit y pushea
@@ -82,6 +84,8 @@ pnpm version:bump minor  # incremento manual: major, minor o patch
 ```
 
 Las migraciones se aplican por nombre y se registran en `schema_migrations`. Para agregar una, creá el siguiente archivo numerado en `database/migrations` y ejecutá `pnpm db:migrate`.
+
+`pnpm db:seed` crea o restablece los usuarios de desarrollo `admin@example.com` (`admin`) y `user@example.com` (`user`). Ambos usan la contraseña `Test12345!`; no uses estas credenciales en producción.
 
 ## Versionado
 

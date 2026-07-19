@@ -14,9 +14,9 @@ import {
   useState,
   type ComponentProps,
 } from "react";
-import { EmptyState, ErrorState, LoadingState } from "../components/Feedback";
 import { api, getErrorMessage } from "../lib/api";
 import type { ApiEnvelope, Task, TaskInput, TaskStatus } from "../types/api";
+import { EmptyState, ErrorState, LoadingState } from "../components/Feedback";
 
 const statusLabels: Record<TaskStatus, string> = {
   todo: "Pendiente",
@@ -148,12 +148,11 @@ export function DashboardPage() {
     <div className="dashboard">
       <section className="dashboard-title">
         <div>
-          <p className="eyebrow">Mesa de trabajo / Vista general</p>
-          <h1>
-            Asuntos
-            <br />
-            <em>pendientes</em>
-          </h1>
+          <p className="eyebrow">Operaciones / Tareas</p>
+          <h1>Panel de tareas</h1>
+          <p className="page-description">
+            Centraliza el seguimiento y la resolución de los pendientes del equipo.
+          </p>
         </div>
         <button
           className="button button-primary new-task"
@@ -167,23 +166,23 @@ export function DashboardPage() {
 
       <section className="metrics" aria-label="Resumen de tareas">
         <div>
-          <span>Total</span>
-          <strong>{String(tasks.length).padStart(2, "0")}</strong>
-          <small>registradas</small>
+          <span>Total de tareas</span>
+          <strong>{tasks.length}</strong>
+          <small>en el registro</small>
         </div>
         <div>
           <span>En curso</span>
-          <strong>{String(inProgress).padStart(2, "0")}</strong>
-          <small>en movimiento</small>
+          <strong>{inProgress}</strong>
+          <small>requieren seguimiento</small>
         </div>
         <div>
-          <span>Cerradas</span>
-          <strong>{String(completed).padStart(2, "0")}</strong>
-          <small>archivo final</small>
+          <span>Completadas</span>
+          <strong>{completed}</strong>
+          <small>resueltas</small>
         </div>
       </section>
 
-      <div className={`work-area ${editing ? "has-editor" : ""}`}>
+      <div className="work-area">
         <section className="task-register" aria-labelledby="register-title">
           <div className="register-toolbar">
             <h2 id="register-title">Registro de tareas</h2>
@@ -216,17 +215,17 @@ export function DashboardPage() {
           />
         </section>
 
-        {editing && (
-          <TaskEditor
-            key={editing === "new" ? "new" : editing.id}
-            task={editing === "new" ? null : editing}
-            saving={saving}
-            error={mutationError}
-            onCancel={() => setEditing(null)}
-            onSave={saveTask}
-          />
-        )}
       </div>
+      {editing && (
+        <TaskEditor
+          key={editing === "new" ? "new" : editing.id}
+          task={editing === "new" ? null : editing}
+          saving={saving}
+          error={mutationError}
+          onCancel={() => setEditing(null)}
+          onSave={saveTask}
+        />
+      )}
     </div>
   );
 }

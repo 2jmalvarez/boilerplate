@@ -1,8 +1,10 @@
 import type { RequestHandler } from 'express';
-import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
+import jsonwebtoken from 'jsonwebtoken';
 import { AppError } from '../../shared/app-error.js';
 import type { Role } from '../../shared/types.js';
 import { verifyAccessToken } from './token.service.js';
+
+const { JsonWebTokenError, TokenExpiredError } = jsonwebtoken;
 
 export const authenticate: RequestHandler = (req, _res, next) => {
   const authorization = req.headers.authorization;

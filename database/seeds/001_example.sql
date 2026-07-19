@@ -1,2 +1,0 @@
--- Create users through POST /api/auth/register so passwords are always hashed.
--- Add application-specific seed data here.
