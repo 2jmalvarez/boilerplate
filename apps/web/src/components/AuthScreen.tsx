@@ -2,6 +2,8 @@ import { ArrowRight, SquareCheckBig } from 'lucide-react'
 import { useState, type FormEvent, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { getErrorMessage } from '../lib/api'
+import { Button } from '../ui/Button'
+import { FormField } from '../ui/FormField'
 
 interface AuthScreenProps {
   mode: 'login' | 'register'
@@ -55,8 +57,7 @@ export function AuthScreen({ mode, onSubmit, footer }: AuthScreenProps) {
         </div>
         <form className="auth-form" onSubmit={handleSubmit}>
           {isRegister && (
-            <label>
-              Nombre
+            <FormField label="Nombre">
               <input
                 autoComplete="name"
                 name="name"
@@ -64,10 +65,9 @@ export function AuthScreen({ mode, onSubmit, footer }: AuthScreenProps) {
                 value={values.name}
                 onChange={(event) => setValues({ ...values, name: event.target.value })}
               />
-            </label>
+            </FormField>
           )}
-          <label>
-            Correo electrónico
+          <FormField label="Correo electrónico">
             <input
               autoComplete="email"
               name="email"
@@ -76,9 +76,8 @@ export function AuthScreen({ mode, onSubmit, footer }: AuthScreenProps) {
               value={values.email}
               onChange={(event) => setValues({ ...values, email: event.target.value })}
             />
-          </label>
-          <label>
-            Contraseña
+          </FormField>
+          <FormField label="Contraseña">
             <input
               autoComplete={isRegister ? 'new-password' : 'current-password'}
               minLength={8}
@@ -88,12 +87,12 @@ export function AuthScreen({ mode, onSubmit, footer }: AuthScreenProps) {
               value={values.password}
               onChange={(event) => setValues({ ...values, password: event.target.value })}
             />
-          </label>
+          </FormField>
           {error && <p className="form-error" role="alert">{error}</p>}
-          <button className="button button-primary auth-submit" disabled={submitting} type="submit">
+          <Button className="auth-submit" disabled={submitting} type="submit" variant="primary">
             {submitting ? 'Procesando…' : isRegister ? 'Crear cuenta' : 'Entrar'}
             {!submitting && <ArrowRight aria-hidden="true" size={18} />}
-          </button>
+          </Button>
         </form>
         <div className="auth-footer">{footer}</div>
       </section>
